@@ -26,13 +26,7 @@ interface MenuItem {
   template: `
     <header class="titlebar">
       <div class="titlebar-brand" (mousedown)="startDrag($event)" (dblclick)="toggleMaximize()">
-        <svg class="titlebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-          <path d="M8 7h8"/>
-          <path d="M8 11h8"/>
-          <path d="M8 15h5"/>
-        </svg>
+        <img class="titlebar-logo" src="/logo.png" alt="" width="22" height="22">
         <span class="titlebar-title">{{ 'app.title' | t }}</span>
       </div>
 
@@ -238,10 +232,10 @@ export class TitleBarComponent implements OnInit, OnDestroy {
   private handleAction(action: string) {
     switch (action) {
       case 'about':
-        alert('Verbum v0.1.0\nApplication desktop Tauri + Angular');
+        alert('Vivum v0.1.0\nApplication desktop Tauri + Angular');
         break;
       case 'help':
-        window.open('https://github.com/verbum', '_blank');
+        window.open('https://github.com/Martzcode/Vivum', '_blank');
         break;
     }
   }

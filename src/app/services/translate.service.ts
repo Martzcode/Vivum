@@ -9,7 +9,7 @@ export class TranslateService {
   private ready = false;
 
   async init(): Promise<void> {
-    const saved = localStorage.getItem('verbum-locale') as SupportedLocale;
+    const saved = localStorage.getItem('vivum-locale') as SupportedLocale;
     if (saved && SUPPORTED_LOCALES.includes(saved)) {
       this.currentLocale.set(saved);
     }
@@ -53,7 +53,7 @@ export class TranslateService {
     if (!SUPPORTED_LOCALES.includes(locale)) return;
     await this.loadLocale(locale);
     this.currentLocale.set(locale);
-    localStorage.setItem('verbum-locale', locale);
+    localStorage.setItem('vivum-locale', locale);
     document.documentElement.lang = locale;
   }
 }

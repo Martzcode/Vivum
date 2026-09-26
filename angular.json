@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "verbum": {
+    "vivum": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "verbum:build:production"
+              "buildTarget": "vivum:build:production"
             },
             "development": {
-              "buildTarget": "verbum:build:development"
+              "buildTarget": "vivum:build:development"
             }
           },
           "defaultConfiguration": "development"

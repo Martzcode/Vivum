@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import type { Favorite } from '../models/bible.model';
 
-const STORAGE_KEY = 'verbum-favorites';
+const STORAGE_KEY = 'vivum-favorites';
 
 @Injectable({ providedIn: 'root' })
 export class FavoritesService {

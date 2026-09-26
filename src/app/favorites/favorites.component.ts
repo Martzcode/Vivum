@@ -41,7 +41,7 @@ import type { Favorite } from '../models/bible.model';
     </div>
   `,
   styles: [`
-    .favorites-page { max-width: 700px; margin: 0 auto; padding: 24px; max-height: calc(100vh - 160px); overflow-y: auto; }
+    .favorites-page { max-width: 700px; margin: 0 auto; padding: 24px; }
 
     h1 { font-size: 24px; font-weight: 700; margin: 0 0 24px; color: var(--text-primary); }
 

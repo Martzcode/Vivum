@@ -1,8 +1,8 @@
 [package]
-name = "verbum"
+name = "vivum"
 version = "0.1.0"
-description = "Verbum desktop application"
-authors = ["Verbum"]
+description = "Vivum desktop application"
+authors = ["Vivum"]
 license = ""
 repository = ""
 edition = "2021"
@@ -11,7 +11,7 @@ rust-version = "1.77.2"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
-name = "verbum_lib"
+name = "vivum_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Verbum"
+    "title": "Vivum"
   },
   "menu": {
     "file": "File",
@@ -17,7 +17,7 @@
     "copy": "Copy",
     "paste": "Paste",
     "selectAll": "Select All",
-    "about": "About Verbum",
+    "about": "About Vivum",
     "online": "Online Help"
   },
   "search": {
@@ -56,7 +56,7 @@
     "emptyHint": "Tap the heart icon near a verse to add it here."
   },
   "home": {
-    "welcome": "Welcome to Verbum",
+    "welcome": "Welcome to Vivum",
     "subtitle": "Read the Word of God in peace",
     "lastRead": "Last Reading",
     "continue": "Continue Reading",

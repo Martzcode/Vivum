@@ -1,11 +1,11 @@
-# Verbum
+# Vivum
 
 Application desktop **Tauri** : front **Angular**, backend et shell applicatif en **Rust** (`src-tauri`).
 
 ## Structure
 
 ```
-Verbum/
+Vivum/
 ├── src/                    # Code source Angular (front)
 ├── public/                 # Assets statiques
 ├── src-tauri/              # Backend Rust : shell Tauri, fenêtre, IPC, logique métier

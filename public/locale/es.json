@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Verbum"
+    "title": "Vivum"
   },
   "menu": {
     "file": "Archivo",
@@ -17,7 +17,7 @@
     "copy": "Copiar",
     "paste": "Pegar",
     "selectAll": "Seleccionar todo",
-    "about": "Acerca de Verbum",
+    "about": "Acerca de Vivum",
     "online": "Ayuda en línea"
   },
   "search": {
@@ -56,7 +56,7 @@
     "emptyHint": "Toca el icono del corazón junto a un versículo para añadirlo aquí."
   },
   "home": {
-    "welcome": "Bienvenido a Verbum",
+    "welcome": "Bienvenido a Vivum",
     "subtitle": "Lee la Palabra de Dios en paz",
     "lastRead": "Última Lectura",
     "continue": "Continuar Leyendo",

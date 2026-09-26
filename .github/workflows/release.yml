@@ -298,7 +298,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.version.outputs.tag }}
-          name: "Verbum ${{ needs.version.outputs.version }}"
+          name: "Vivum ${{ needs.version.outputs.version }}"
           prerelease: ${{ needs.version.outputs.prerelease == 'true' }}
           body_path: /tmp/changelog_body.md
           files: artifacts/*

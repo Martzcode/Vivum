@@ -35,38 +35,40 @@ import type { Chapter } from '../../models/bible.model';
         </div>
 
         <div class="reader-content">
-          @for (verse of chapter()!.verses; track verse.verse) {
-            <div class="verse">
-              <span class="verse-num">{{ verse.verse }}</span>
-              <span class="verse-text">{{ verse.text }}</span>
-              <div class="verse-actions">
-                <button
-                  class="verse-action"
-                  [title]="'bible.copyVerse' | t"
-                  (click)="copyVerse(verse.text)">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-                  </svg>
-                </button>
-                <button
-                  class="verse-action"
-                  [class.is-fav]="isFavorite(verse.verse)"
-                  [title]="isFavorite(verse.verse) ? ('bible.removeFavorite' | t) : ('bible.addFavorite' | t)"
-                  (click)="toggleFavorite(verse.verse, verse.text)">
-                  @if (isFavorite(verse.verse)) {
-                    <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                  } @else {
+          <div class="reader-verses">
+            @for (verse of chapter()!.verses; track verse.verse) {
+              <div class="verse">
+                <span class="verse-num">{{ verse.verse }}</span>
+                <span class="verse-text">{{ verse.text }}</span>
+                <div class="verse-actions">
+                  <button
+                    class="verse-action"
+                    [title]="'bible.copyVerse' | t"
+                    (click)="copyVerse(verse.text)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                     </svg>
-                  }
-                </button>
+                  </button>
+                  <button
+                    class="verse-action"
+                    [class.is-fav]="isFavorite(verse.verse)"
+                    [title]="isFavorite(verse.verse) ? ('bible.removeFavorite' | t) : ('bible.addFavorite' | t)"
+                    (click)="toggleFavorite(verse.verse, verse.text)">
+                    @if (isFavorite(verse.verse)) {
+                      <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                      </svg>
+                    } @else {
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                      </svg>
+                    }
+                  </button>
+                </div>
               </div>
-            </div>
-          }
+            }
+          </div>
         </div>
 
         <div class="reader-footer">
@@ -80,16 +82,28 @@ import type { Chapter } from '../../models/bible.model';
     </div>
   `,
   styles: [`
-    .reader { max-width: 700px; margin: 0 auto; padding: 16px 24px; }
+    .reader {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+    }
 
     .reader-loading {
+      margin: auto;
       text-align: center;
       padding: 48px;
       color: var(--text-muted);
       font-size: 14px;
     }
 
-    .reader-header { margin-bottom: 24px; }
+    .reader-header {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto 24px;
+      padding: 16px 24px 0;
+    }
 
     .reader-nav {
       display: flex;
@@ -147,10 +161,17 @@ import type { Chapter } from '../../models/bible.model';
     }
 
     .reader-content {
-      line-height: 1.8;
-      max-height: calc(100vh - 160px);
+      flex: 1 1 auto;
+      min-height: 0;
       overflow-y: auto;
-      padding-right: 8px;
+    }
+
+    .reader-verses {
+      line-height: 1.8;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px 24px;
     }
 
     .verse {
@@ -210,7 +231,11 @@ import type { Chapter } from '../../models/bible.model';
     .verse-action.is-fav { color: #e25555; }
 
     .reader-footer {
-      margin-top: 32px;
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: 700px;
+      margin: 32px auto 0;
+      padding: 0 24px 16px;
       text-align: center;
     }
 

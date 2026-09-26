@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Verbum"
+    "title": "Vivum"
   },
   "menu": {
     "file": "Fichier",
@@ -17,7 +17,7 @@
     "copy": "Adiky",
     "paste": "Apetraho",
     "selectAll": "Safidio daholo",
-    "about": "Momba ny Verbum",
+    "about": "Momba ny Vivum",
     "online": "Fanamarihana amin'ny tambajotra"
   },
   "search": {
@@ -56,7 +56,7 @@
     "emptyHint": "Tsindrio ny sofina ao akaikin'ny andiana mba hampetraka azy eto."
   },
   "home": {
-    "welcome": "Tongasoa eto amin'i Verbum",
+    "welcome": "Tongasoa eto amin'i Vivum",
     "subtitle": "Vakio ny tenin'Andriamanitra amin'ny fahamoramana",
     "lastRead": "Vakivaky vao gena",
     "continue": "Ampitohizo ny fakiana",
