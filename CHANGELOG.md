@@ -3,6 +3,12 @@
 Toutes les versions notables de Vivum sont documentées dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
+## [2026.10.03]
+
+### Fixed
+- `PublisherDisplayName` du MSIX : `Vivum` → `Martzcode` pour correspondre au nom d'éditeur du Partner Center (rejet « Package acceptance validation error » à l'upload)
+- Identité MSIX : `Identity Name` et `Publisher` lus depuis les secrets, avec les valeurs Partner Center en repli
+
 ## [2026.10.02]
 
 ### Added

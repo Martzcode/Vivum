@@ -118,14 +118,15 @@ jobs:
         env:
           MSIX_PFX_B64: ${{ secrets.MSIX_SIGN_PFX_BASE64 }}
 
-      # Paquet MSIX Desktop Bridge (Partner Center) : non signe par defaut,
-      # Identity/Publisher via variables (valeurs Partner Center requises avant soumission).
+      # Paquet MSIX Desktop Bridge (Partner Center) : non signe par defaut.
+      # Identite/publisher via secrets (meme convention que Daycove), avec
+      # les valeurs Partner Center du compte Martzcode en repli.
       - name: Package MSIX (Microsoft Store)
         shell: pwsh
-        run: ./scripts/pack-msix.ps1 -DisplayName "Vivum" -PublisherDisplayName "Vivum"
+        run: ./scripts/pack-msix.ps1 -DisplayName "Vivum" -PublisherDisplayName "${{ secrets.MS_STORE_PUBLISHER_DISPLAY || 'Martzcode' }}"
         env:
-          MSIX_IDENTITY_NAME: ${{ vars.MSIX_IDENTITY_NAME }}
-          MSIX_PUBLISHER: ${{ vars.MSIX_PUBLISHER }}
+          MSIX_IDENTITY_NAME: ${{ secrets.MS_STORE_IDENTITY_NAME }}
+          MSIX_PUBLISHER: ${{ secrets.MS_STORE_PUBLISHER }}
           MSIX_VERSION: ${{ needs.version.outputs.version-msix }}
           MSIX_SIGN_PASSWORD: ${{ secrets.MSIX_SIGN_PASSWORD }}
 
@@ -340,7 +341,7 @@ jobs:
             echo ""
             echo "### Microsoft Store"
             echo ""
-            echo "- Paquet \`*.msix\` Microsoft Store (Desktop Bridge, version MSIX ${{ needs.version.outputs.version-msix }}) : **non signe** sauf si \`MSIX_SIGN_PFX_BASE64\` est configure — pret pour Partner Center, le Store re-signe automatiquement. Avant soumission : renseigner les variables \`MSIX_IDENTITY_NAME\` / \`MSIX_PUBLISHER\` avec les valeurs Partner Center (nom reserve + Publisher ID), puis valider avec le Kit de certification Windows (WACK)."
+            echo "- Paquet \`*.msix\` Microsoft Store (Desktop Bridge, version MSIX ${{ needs.version.outputs.version-msix }}) : **non signe** sauf si \`MSIX_SIGN_PFX_BASE64\` est configure — pret pour Partner Center, le Store re-signe automatiquement. Identite/publisher issus des secrets \`MS_STORE_IDENTITY_NAME\` / \`MS_STORE_PUBLISHER\` / \`MS_STORE_PUBLISHER_DISPLAY\` (valeurs Partner Center du compte Martzcode en repli), puis valider avec le Kit de certification Windows (WACK)."
           } >> /tmp/changelog_body.md
 
       - name: Delete existing release

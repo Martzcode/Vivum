@@ -17,8 +17,8 @@
   - Convention de nommage : <Nom>_<Version>_<Arch>.msix
 
   Entrees (parametres ou variables d'environnement) :
-    MSIX_IDENTITY_NAME  Defaut : com.vivum.app
-    MSIX_PUBLISHER      Defaut : CN=Vivum
+    MSIX_IDENTITY_NAME  Defaut : Martzcode.Vivum (nom reserve Partner Center)
+    MSIX_PUBLISHER      Defaut : CN=7D2188A8-E979-4CC7-B4CA-0B3ADA615D01 (Publisher ID Partner Center)
     MSIX_VERSION        Obligatoire, ex. 2026.9.1.0
     MSIX_SIGN_PFX_PATH  Chemin du certificat PFX (optionnel, pour signer)
     MSIX_SIGN_PASSWORD  Mot de passe du PFX (optionnel)
@@ -31,7 +31,7 @@ param(
   [string]$AssetsDir = "src-tauri/icons",
   [string]$Architecture = "x64",
   [string]$DisplayName = "Vivum",
-  [string]$PublisherDisplayName = "Vivum",
+  [string]$PublisherDisplayName = "Martzcode",
   [string]$Description = "Vivum desktop application"
 )
 
@@ -43,8 +43,8 @@ function Get-EnvOrDefault([string]$Name, [string]$Default) {
   return $v.Trim()
 }
 
-$IdentityName = Get-EnvOrDefault "MSIX_IDENTITY_NAME" "com.vivum.app"
-$Publisher    = Get-EnvOrDefault "MSIX_PUBLISHER" "CN=Vivum"
+$IdentityName = Get-EnvOrDefault "MSIX_IDENTITY_NAME" "Martzcode.Vivum"
+$Publisher    = Get-EnvOrDefault "MSIX_PUBLISHER" "CN=7D2188A8-E979-4CC7-B4CA-0B3ADA615D01"
 $Version      = Get-EnvOrDefault "MSIX_VERSION" ""
 $SignPfx      = Get-EnvOrDefault "MSIX_SIGN_PFX_PATH" ""
 $SignPassword = Get-EnvOrDefault "MSIX_SIGN_PASSWORD" ""
