@@ -5,8 +5,21 @@ import { SUPPORTED_LOCALES } from '../models/bible.model';
 @Injectable({ providedIn: 'root' })
 export class TranslateService {
   private translations = new Map<SupportedLocale, Record<string, unknown>>();
+  /**
+   * Langue selectionnee : pilote le CONTENU biblique (VERSION_MAP).
+   * Seule exception : 'mg' garde une INTERFACE en francais (voir uiLocale).
+   */
   currentLocale = signal<SupportedLocale>('fr');
   private ready = false;
+
+  /**
+   * Locale d'affichage de l'interface : le malagasy reutilise le francais
+   * (contenu en malagasy, menus et libelles en francais). Les autres
+   * langues gardent une interface dans leur propre langue.
+   */
+  uiLocale(): SupportedLocale {
+    return this.currentLocale() === 'mg' ? 'fr' : this.currentLocale();
+  }
 
   async init(): Promise<void> {
     const saved = localStorage.getItem('vivum-locale') as SupportedLocale;
@@ -14,16 +27,18 @@ export class TranslateService {
       this.currentLocale.set(saved);
     }
     await this.loadLocale(this.currentLocale());
+    document.documentElement.lang = this.uiLocale();
     this.ready = true;
   }
 
   private async loadLocale(locale: SupportedLocale): Promise<void> {
-    if (this.translations.has(locale)) return;
+    const ui = locale === 'mg' ? 'fr' : locale;
+    if (this.translations.has(ui)) return;
     try {
-      const data = await fetch(`/locale/${locale}.json`);
-      this.translations.set(locale, await data.json());
+      const data = await fetch(`/locale/${ui}.json`);
+      this.translations.set(ui, await data.json());
     } catch {
-      console.error(`Failed to load locale: ${locale}`);
+      console.error(`Failed to load locale: ${ui}`);
     }
   }
 
@@ -38,7 +53,7 @@ export class TranslateService {
   }
 
   t(key: string, params?: Record<string, string | number>): string {
-    const locale = this.currentLocale();
+    const locale = this.uiLocale();
     const dict = this.translations.get(locale);
     let value = this.resolve(dict, key) ?? key;
     if (params) {
@@ -54,6 +69,6 @@ export class TranslateService {
     await this.loadLocale(locale);
     this.currentLocale.set(locale);
     localStorage.setItem('vivum-locale', locale);
-    document.documentElement.lang = locale;
+    document.documentElement.lang = this.uiLocale();
   }
 }
