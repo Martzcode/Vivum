@@ -36,7 +36,8 @@
     "home": "Accueil",
     "bible": "Bible",
     "search": "Recherche",
-    "favorites": "Favoris"
+    "favorites": "Favoris",
+    "about": "À propos"
   },
   "bible": {
     "oldTestament": "Ancien Testament",
@@ -61,5 +62,15 @@
     "lastRead": "Dernière lecture",
     "continue": "Continuer la lecture",
     "startReading": "Commencer la lecture"
+  },
+  "about": {
+    "title": "À propos de Vivum",
+    "description": "Vivum est une application de lecture de la Bible, simple et sereine. Le texte biblique est proposé en malagasy.",
+    "f1": "Lecture hors-ligne, sans distraction",
+    "f2": "Recherche dans tout le texte",
+    "f3": "Versets favoris conservés sur cet appareil",
+    "tech": "Conçue avec Tauri et Angular.",
+    "developedBy": "Développé par",
+    "github": "Voir sur GitHub"
   }
 }

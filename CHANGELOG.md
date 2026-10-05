@@ -3,6 +3,20 @@
 Toutes les versions notables de Vivum sont documentées dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
+## [2026.10.02]
+
+### Added
+- Paquet **MSIX** (Desktop Bridge) dans les releases Windows, prêt pour la soumission au Microsoft Store via Partner Center (non signé : le Store re-signe automatiquement ; renseigner `MSIX_IDENTITY_NAME` / `MSIX_PUBLISHER` avec les valeurs Partner Center)
+- Page **À propos** dans la navigation (Accueil, Bible, Favoris, À propos) : présentation, points forts, mention « Développé par Martzcode » avec lien vers le profil, lien vers le dépôt GitHub — traduite dans les cinq langues
+- Taille minimale de fenêtre (800×600, la taille de lancement) ; fenêtre déplaçable depuis toute la barre de titre (double-clic : agrandir/restaurer) et redimensionnable
+
+### Changed
+- Contenu biblique en **malagasy** avec interface en **français** : la langue « Malagasy » affiche le texte mg1865 et les noms de livres malagasy, menus et libellés restant en français ; les autres langues sont inchangées
+- Les liens externes (page À propos, aide en ligne) s'ouvrent dans le navigateur par défaut via le plugin Tauri opener
+
+### Removed
+- Installeurs piste Store `*-store.msi` / `*-store-setup.exe` des releases : seul le MSIX est conservé pour le Microsoft Store (les MSI/NSIS standards restent disponibles)
+
 ## [2026.09.01]
 
 L'application est désormais nommée **Vivum**.

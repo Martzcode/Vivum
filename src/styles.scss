@@ -137,7 +137,6 @@ app-titlebar {
   user-select: none;
   -webkit-user-select: none;
   touch-action: none;
-  -webkit-app-region: drag;
 }
 
 .titlebar-brand {
@@ -145,7 +144,6 @@ app-titlebar {
   align-items: center;
   gap: 6px;
   padding: 0 6px;
-  -webkit-app-region: drag;
 }
 
 .titlebar-logo {
@@ -164,14 +162,12 @@ app-titlebar {
 
 .titlebar-spacer {
   flex: 1;
-  -webkit-app-region: drag;
 }
 
 .titlebar-search {
   position: relative;
   flex: 0 0 200px;
   max-width: 240px;
-  -webkit-app-region: no-drag;
 }
 
 .search-input-wrapper {
@@ -200,6 +196,8 @@ app-titlebar {
   border: 1px solid var(--border-light);
   border-radius: var(--radius-sm);
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .search-input::placeholder {
@@ -219,7 +217,6 @@ app-titlebar {
 .titlebar-window-controls {
   display: flex;
   gap: 4px;
-  -webkit-app-region: no-drag;
 }
 
 .window-control {

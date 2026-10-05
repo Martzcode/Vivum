@@ -36,7 +36,8 @@
     "home": "Home",
     "bible": "Bible",
     "search": "Search",
-    "favorites": "Favorites"
+    "favorites": "Favorites",
+    "about": "About"
   },
   "bible": {
     "oldTestament": "Old Testament",
@@ -61,5 +62,15 @@
     "lastRead": "Last Reading",
     "continue": "Continue Reading",
     "startReading": "Start Reading"
+  },
+  "about": {
+    "title": "About Vivum",
+    "description": "Vivum is a simple, serene Bible reading app.",
+    "f1": "Distraction-free offline reading",
+    "f2": "Search across the full text",
+    "f3": "Favorite verses kept on this device",
+    "tech": "Built with Tauri and Angular.",
+    "developedBy": "Developed by",
+    "github": "View on GitHub"
   }
 }

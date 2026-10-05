@@ -36,7 +36,8 @@
     "home": "Antrano",
     "bible": "Baiboly",
     "search": "Tadiava",
-    "favorites": "Fifanakalozana"
+    "favorites": "Fifanakalozana",
+    "about": "Momba"
   },
   "bible": {
     "oldTestament": "Fidirana Tany",
@@ -61,5 +62,15 @@
     "lastRead": "Vakivaky vao gena",
     "continue": "Ampitohizo ny fakiana",
     "startReading": "Manomboka ny fakiana"
+  },
+  "about": {
+    "title": "Momba an'i Vivum",
+    "description": "Vivum dia fampiharana famakiana Baiboly tsotra sy milamina.",
+    "f1": "Famakiana tsy mila tambajotra",
+    "f2": "Fikarohana anatin'ny lahatsoratra manontolo",
+    "f3": "Andininy tiana voatahiry amin'ity fitaovana ity",
+    "tech": "Vita tamin'ny Tauri sy Angular.",
+    "developedBy": "Noforonin'i",
+    "github": "Hita ao amin'ny GitHub"
   }
 }

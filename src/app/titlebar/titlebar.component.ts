@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LanguageSwitcherComponent } from '../components/language-switcher/language-switcher.component';
 import { TranslateService } from '../services/translate.service';
 import { TranslatePipe } from '../pipes/translate.pipe';
+import { ExternalService } from '../services/external.service';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 
 interface MenuDef {
@@ -24,8 +25,8 @@ interface MenuItem {
   standalone: true,
   imports: [LanguageSwitcherComponent, RouterLink, RouterLinkActive, TranslatePipe],
   template: `
-    <header class="titlebar">
-      <div class="titlebar-brand" (mousedown)="startDrag($event)" (dblclick)="toggleMaximize()">
+    <header class="titlebar" (mousedown)="startDrag($event)" (dblclick)="onHeaderDblClick($event)">
+      <div class="titlebar-brand">
         <img class="titlebar-logo" src="/logo.png" alt="" width="22" height="22">
         <span class="titlebar-title">{{ 'app.title' | t }}</span>
       </div>
@@ -50,6 +51,14 @@ interface MenuItem {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
           <span>{{ 'nav.favorites' | t }}</span>
+        </a>
+        <a class="nav-btn" routerLink="/about" routerLinkActive="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <span>{{ 'nav.about' | t }}</span>
         </a>
       </nav>
 
@@ -108,7 +117,6 @@ interface MenuItem {
     .titlebar-nav {
       display: flex;
       gap: 2px;
-      -webkit-app-region: drag;
     }
 
     .nav-btn {
@@ -122,7 +130,6 @@ interface MenuItem {
       border-radius: var(--radius-sm);
       text-decoration: none;
       transition: background-color 0.15s ease, color 0.15s ease;
-      -webkit-app-region: no-drag;
     }
 
     .nav-btn svg {
@@ -147,6 +154,7 @@ export class TitleBarComponent implements OnInit, OnDestroy {
   private unlistenResized?: () => void;
   private router = inject(Router);
   private translate = inject(TranslateService);
+  private external = inject(ExternalService);
 
   isMaximized = signal(false);
   searchQuery = signal('');
@@ -200,9 +208,19 @@ export class TitleBarComponent implements OnInit, OnDestroy {
   }
 
   startDrag(event: MouseEvent) {
-    if (event.button !== 0) return;
+    if (event.button !== 0 || this.isInteractive(event.target)) return;
     event.preventDefault();
     this.appWindow.startDragging();
+  }
+
+  onHeaderDblClick(event: MouseEvent) {
+    if (this.isInteractive(event.target)) return;
+    this.toggleMaximize();
+  }
+
+  private isInteractive(target: EventTarget | null): boolean {
+    const el = target as HTMLElement | null;
+    return !!el?.closest?.('input, button, a, select, textarea, [contenteditable="true"]');
   }
 
   minimize() { this.appWindow.minimize(); }
@@ -235,7 +253,7 @@ export class TitleBarComponent implements OnInit, OnDestroy {
         alert('Vivum v0.1.0\nApplication desktop Tauri + Angular');
         break;
       case 'help':
-        window.open('https://github.com/Martzcode/Vivum', '_blank');
+        this.external.open('https://github.com/Martzcode/Vivum');
         break;
     }
   }

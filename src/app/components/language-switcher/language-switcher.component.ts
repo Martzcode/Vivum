@@ -43,7 +43,6 @@ const LOCALE_NAMES: Record<SupportedLocale, string> = {
 
     .lang-switcher {
       position: relative;
-      -webkit-app-region: no-drag;
     }
 
     .lang-btn {
