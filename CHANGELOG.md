@@ -3,6 +3,11 @@
 Toutes les versions notables de Vivum sont documentées dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
+## [2026.10.04]
+
+### Changed
+- Classement de l'application dans la catégorie « Éducation » des menus d'applications Linux (fichier `.desktop` : `Categories=Education;`) au lieu de la catégorie « Autres ».
+
 ## [2026.10.03]
 
 ### Fixed
