@@ -3,7 +3,7 @@
 Toutes les versions notables de Vivum sont documentées dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
-## [2026.10.30]
+## [2026.10.05]
 
 ### Added
 - Menu contextuel applicatif : actions adaptées aux versets (copier le verset ou la sélection, copier la référence, ajouter aux favoris, rechercher ce verset), aux favoris (ouvrir, retirer) et aux résultats de recherche ; navigation au clavier et fermeture par `Échap`
