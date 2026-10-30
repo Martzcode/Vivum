@@ -25,19 +25,22 @@
     "title": "Suchen",
     "noResults": "Keine Ergebnisse für diese Suche",
     "resultsCount": "{count} Ergebnis(se) gefunden",
-    "verses": "Verse"
+    "verses": "Verse",
+    "error": "Die Suche konnte nicht abgeschlossen werden."
   },
   "aria": {
     "minimize": "Minimieren",
     "maximize": "Maximieren/Wiederherstellen",
-    "close": "Schließen"
+    "close": "Schließen",
+    "search": "Suchen"
   },
   "nav": {
     "home": "Startseite",
     "bible": "Bibel",
     "search": "Suchen",
     "favorites": "Favoriten",
-    "about": "Über"
+    "about": "Über",
+    "privacy": "Datenschutz"
   },
   "bible": {
     "oldTestament": "Altes Testament",
@@ -49,19 +52,38 @@
     "copyVerse": "Vers kopieren",
     "addFavorite": "Zu Favoriten hinzufügen",
     "removeFavorite": "Aus Favoriten entfernen",
+    "copied": "Kopiert!",
+    "loadError": "Der Bibeltext konnte nicht geladen werden.",
+    "bookNotFound": "Dieses Buch wurde nicht gefunden.",
+    "chapterNotFound": "Dieses Kapitel existiert nicht.",
+    "nextChapter": "Nächstes Kapitel"
+  },
+  "context": {
+    "copyVerse": "Vers kopieren",
+    "copyReference": "Referenz kopieren",
+    "copySelection": "Auswahl kopieren",
+    "searchVerse": "Diesen Vers suchen",
+    "searchSelection": "In der Bibel suchen",
+    "openVerse": "Vers öffnen",
     "copied": "Kopiert!"
   },
   "favorites": {
     "title": "Meine Favoriten",
     "empty": "Noch keine Favoriten",
-    "emptyHint": "Tippen Sie auf das Herz-Symbol neben einem Vers, um ihn hier hinzuzufügen."
+    "emptyHint": "Tippen Sie auf das Herz-Symbol neben einem Vers, um ihn hier hinzuzufügen.",
+    "export": "Exportieren",
+    "import": "Importieren",
+    "exported": "Favoriten exportiert.",
+    "imported": "{count} Favorit(en) importiert.",
+    "importError": "Ungültige Favoritendatei."
   },
   "home": {
     "welcome": "Willkommen bei Vivum",
     "subtitle": "Lesen Sie das Wort Gottes in Ruhe",
-    "lastRead": "Letzte Lektüre",
     "continue": "Weiterlesen",
-    "startReading": "Mit dem Lesen beginnen"
+    "startReading": "Mit dem Lesen beginnen",
+    "recentlyRead": "Zuletzt gelesen",
+    "lastFavorite": "Letzter Favorit"
   },
   "about": {
     "title": "Über Vivum",
@@ -71,6 +93,45 @@
     "f3": "Lieblingsverse auf diesem Gerät gespeichert",
     "tech": "Mit Tauri und Angular erstellt.",
     "developedBy": "Entwickelt von",
-    "github": "Auf GitHub ansehen"
+    "github": "Auf GitHub ansehen",
+    "privacy": "Datenschutzerklärung"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "updated": "Zuletzt aktualisiert: 30. Oktober 2026",
+    "intro": "Vivum ist eine Bibellese-App, die vollständig offline funktioniert. Wir erfassen, übertragen oder verkaufen keine personenbezogenen Daten.",
+    "s1Title": "1. Daten, die wir erfassen",
+    "s1Text": "Keine. Vivum hat keine Konten und fragt weder nach Namen, E-Mail noch persönlichen Informationen. Es werden niemals Nutzungsdaten an einen Server gesendet — wir betreiben keinen.",
+    "s2Title": "2. Offline-Betrieb",
+    "s2Text": "Der gesamte Bibeltext ist in der App enthalten. Lesen, Suchen und Navigieren funktionieren ohne Internetverbindung und erzeugen keinen Netzwerkverkehr.",
+    "s3Title": "3. Auf Ihrem Gerät gespeicherte Daten",
+    "s3Text": "Ihre Einstellungen bleiben ausschließlich auf Ihrem Gerät, im lokalen Speicher der App:",
+    "s3Item1": "Lieblingsverse (Referenz, Text und Hinzufügedatum).",
+    "s3Item2": "Gewählte Anzeigesprache, letzte Leseposition und aktueller Leseverlauf.",
+    "s3Item3": "Diese Daten verlassen Ihr Gerät nur, wenn Sie sie selbst exportieren. Sie werden gelöscht, wenn Sie die App-Daten löschen oder die App deinstallieren.",
+    "s4Title": "4. Tracking, Cookies und Werbung",
+    "s4Text": "Vivum enthält keine Tracker, keine Drittanbieter-Cookies, keine Analysetools und keine Werbung. Es werden keine Werbe-IDs oder Reichweitenmessungen verwendet.",
+    "s5Title": "5. Externe Links",
+    "s5Text": "Die App enthält Links zu GitHub (Projektseite und Entwicklerprofil). Wenn Sie auf diese Links klicken, gilt die Datenschutzerklärung von GitHub, die von dieser Erklärung unabhängig ist.",
+    "s6Title": "6. Kinder",
+    "s6Text": "Vivum ist für alle Altersgruppen geeignet und erfasst wissentlich keine Daten über Kinder.",
+    "s7Title": "7. Ihre Rechte (DSGVO)",
+    "s7Text": "Da keine personenbezogenen Daten erfasst oder übertragen werden, gibt es von unserer Seite nichts einzusehen, zu exportieren oder zu berichtigen. Sie behalten die volle Kontrolle: Sie können Ihre Favoriten und Einstellungen jederzeit in der App oder durch Löschen der lokalen Daten entfernen.",
+    "s8Title": "8. Kontakt und Änderungen",
+    "s8Text": "Bei Fragen zu dieser Erklärung öffnen Sie ein Ticket unter https://github.com/Martzcode/Vivum. Bei Änderungen wird das oben genannte Aktualisierungsdatum angepasst.",
+    "manageTitle": "Meine Daten verwalten",
+    "manageText": "Sie können Ihre Favoriten und Ihren Leseverlauf jederzeit löschen. Diese Aktion ist endgültig.",
+    "clearData": "Meine Daten löschen",
+    "clearConfirm": "Löschen bestätigen",
+    "cleared": "Ihre Favoriten und Ihr Leseverlauf wurden gelöscht."
+  },
+  "common": {
+    "retry": "Erneut versuchen",
+    "cancel": "Abbrechen"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "text": "Die angeforderte Adresse existiert in Vivum nicht.",
+    "back": "Zurück zur Startseite"
   }
 }

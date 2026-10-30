@@ -1,18 +1,20 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SlicePipe } from '@angular/common';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { FavoritesService } from '../../services/favorites.service';
-import type { Favorite } from '../../models/bible.model';
+import { ProgressService } from '../../services/progress.service';
+import type { ReadingPosition } from '../../models/bible.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, TranslatePipe, SlicePipe],
   template: `
     <div class="home">
       <div class="home-hero">
-        <svg class="home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg class="home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
           <path d="M8 7h8"/>
@@ -21,15 +23,46 @@ import type { Favorite } from '../../models/bible.model';
         </svg>
         <h1>{{ 'home.welcome' | t }}</h1>
         <p class="home-subtitle">{{ 'home.subtitle' | t }}</p>
-        <a class="home-cta" routerLink="/bible">{{ 'home.startReading' | t }}</a>
+
+        @if (current(); as position) {
+          <a
+            class="home-cta"
+            [routerLink]="['/bible', position.bookId, position.chapter]"
+            [fragment]="fragmentFor(position)">
+            {{ 'home.continue' | t }}
+          </a>
+        } @else {
+          <a class="home-cta" routerLink="/bible">{{ 'home.startReading' | t }}</a>
+        }
       </div>
 
-      @if (lastFavorite()) {
+      @if (recent().length > 0) {
         <div class="home-section">
-          <h2>{{ 'home.lastRead' | t }}</h2>
-          <a class="last-read-card" [routerLink]="['/bible', lastFavorite()!.bookId, lastFavorite()!.chapter]">
-            <span class="last-read-ref">{{ lastFavorite()!.bookName }} {{ lastFavorite()!.chapter }}:{{ lastFavorite()!.verse }}</span>
-            <span class="last-read-text">{{ lastFavorite()!.text | slice:0:120 }}…</span>
+          <h2>{{ 'home.recentlyRead' | t }}</h2>
+          <div class="home-list">
+            @for (position of recent(); track position.version + ':' + position.bookId) {
+              <a
+                class="recent-card"
+                [routerLink]="['/bible', position.bookId, position.chapter]"
+                [fragment]="fragmentFor(position)">
+                <span class="recent-ref">{{ reference(position) }}</span>
+              </a>
+            }
+          </div>
+        </div>
+      }
+
+      @if (lastFavorite(); as favorite) {
+        <div class="home-section">
+          <h2>{{ 'home.lastFavorite' | t }}</h2>
+          <a
+            class="last-read-card"
+            [routerLink]="['/bible', favorite.bookId, favorite.chapter]"
+            [fragment]="'v' + favorite.verse">
+            <span class="last-read-ref">
+              {{ favorite.bookName }} {{ favorite.chapter }}:{{ favorite.verse }}
+            </span>
+            <span class="last-read-text">{{ favorite.text | slice:0:120 }}…</span>
           </a>
         </div>
       }
@@ -85,14 +118,41 @@ import type { Favorite } from '../../models/bible.model';
     }
 
     .home-section {
-      margin-top: 48px;
+      margin-top: 40px;
     }
 
     h2 {
       font-size: 16px;
       font-weight: 600;
       color: var(--text-secondary);
-      margin: 0 0 16px;
+      margin: 0 0 12px;
+    }
+
+    .home-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .recent-card {
+      display: block;
+      padding: 10px 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .recent-card:hover {
+      border-color: var(--accent);
+      text-decoration: none;
+    }
+
+    .recent-ref {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
     }
 
     .last-read-card {
@@ -124,16 +184,21 @@ import type { Favorite } from '../../models/bible.model';
       color: var(--text-muted);
       line-height: 1.5;
     }
-  `]
+  `],
 })
-export class HomeComponent implements OnInit {
-  private favoritesService = inject(FavoritesService);
-  lastFavorite = signal<Favorite | null>(null);
+export class HomeComponent {
+  private readonly favorites = inject(FavoritesService);
+  private readonly progress = inject(ProgressService);
 
-  ngOnInit() {
-    const favs = this.favoritesService.getAll();
-    if (favs.length > 0) {
-      this.lastFavorite.set(favs[favs.length - 1]);
-    }
+  readonly current = this.progress.current;
+  readonly recent = computed(() => this.progress.recent().slice(0, 5));
+  readonly lastFavorite = computed(() => this.favorites.favorites().at(-1) ?? null);
+
+  fragmentFor(position: ReadingPosition): string | undefined {
+    return position.verse ? `v${position.verse}` : undefined;
+  }
+
+  reference(position: ReadingPosition): string {
+    return `${position.bookName} ${position.chapter}${position.verse ? `:${position.verse}` : ''}`;
   }
 }

@@ -1,24 +1,8 @@
 import { Component, signal, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LanguageSwitcherComponent } from '../components/language-switcher/language-switcher.component';
-import { TranslateService } from '../services/translate.service';
 import { TranslatePipe } from '../pipes/translate.pipe';
-import { ExternalService } from '../services/external.service';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-
-interface MenuDef {
-  labelKey: string;
-  items: MenuItem[];
-}
-
-interface MenuItem {
-  labelKey?: string;
-  label?: string;
-  shortcut?: string;
-  action?: () => void;
-  disabled?: boolean;
-  divider?: boolean;
-}
 
 @Component({
   selector: 'app-titlebar',
@@ -153,48 +137,9 @@ export class TitleBarComponent implements OnInit, OnDestroy {
   private readonly appWindow = getCurrentWindow();
   private unlistenResized?: () => void;
   private router = inject(Router);
-  private translate = inject(TranslateService);
-  private external = inject(ExternalService);
 
   isMaximized = signal(false);
   searchQuery = signal('');
-
-  get menus() {
-    return [
-      {
-        labelKey: 'menu.file',
-        items: [
-          { labelKey: 'menu.file.new', shortcut: '⌘N', action: () => {} },
-          { labelKey: 'menu.file.open', shortcut: '⌘O', action: () => {} },
-          { divider: true },
-          { labelKey: 'menu.file.save', shortcut: '⌘S', action: () => {} },
-          { labelKey: 'menu.file.saveAs', shortcut: '⌘⇧S', action: () => {} },
-          { divider: true },
-          { labelKey: 'menu.file.quit', shortcut: '⌘Q', action: () => this.close() },
-        ]
-      },
-      {
-        labelKey: 'menu.edit',
-        items: [
-          { labelKey: 'menu.edit.undo', shortcut: '⌘Z', action: () => {} },
-          { labelKey: 'menu.edit.redo', shortcut: '⌘⇧Z', action: () => {} },
-          { divider: true },
-          { labelKey: 'menu.edit.cut', shortcut: '⌘X', action: () => {} },
-          { labelKey: 'menu.edit.copy', shortcut: '⌘C', action: () => {} },
-          { labelKey: 'menu.edit.paste', shortcut: '⌘⌘V', action: () => {} },
-          { labelKey: 'menu.edit.selectAll', shortcut: '⌘A', action: () => {} },
-        ]
-      },
-      {
-        labelKey: 'menu.help',
-        items: [
-          { labelKey: 'menu.help.about', action: () => this.handleAction('about') },
-          { divider: true },
-          { labelKey: 'menu.help.online', shortcut: 'F1', action: () => this.handleAction('help') },
-        ]
-      }
-    ];
-  }
 
   async ngOnInit() {
     this.isMaximized.set(await this.appWindow.isMaximized());
@@ -243,18 +188,5 @@ export class TitleBarComponent implements OnInit, OnDestroy {
     this.searchQuery.set('');
     const input = document.querySelector('.search-input') as HTMLInputElement;
     input?.blur();
-  }
-
-  onMenuAction(_action: string) {}
-
-  private handleAction(action: string) {
-    switch (action) {
-      case 'about':
-        alert('Vivum v0.1.0\nApplication desktop Tauri + Angular');
-        break;
-      case 'help':
-        this.external.open('https://github.com/Martzcode/Vivum');
-        break;
-    }
   }
 }

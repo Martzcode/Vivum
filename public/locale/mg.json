@@ -25,19 +25,22 @@
     "title": "Tadiava",
     "noResults": "Tsy misy vokany",
     "resultsCount": "{count} vokany",
-    "verses": "andiana"
+    "verses": "andiana",
+    "error": "Tsy nahavita ny fikarohana."
   },
   "aria": {
     "minimize": "Kitsaho",
     "maximize": "Apetraho / Azafaho",
-    "close": "Akano"
+    "close": "Akano",
+    "search": "Tadiava"
   },
   "nav": {
     "home": "Antrano",
     "bible": "Baiboly",
     "search": "Tadiava",
     "favorites": "Fifanakalozana",
-    "about": "Momba"
+    "about": "Momba",
+    "privacy": "Tsiambaratelo"
   },
   "bible": {
     "oldTestament": "Fidirana Tany",
@@ -49,19 +52,38 @@
     "copyVerse": "Adiky ny andiana",
     "addFavorite": "Apetraho amin'ny fisisiany",
     "removeFavorite": "Esory amin'ny fisisiany",
-    "copied": "Nadiky!"
+    "copied": "Nadiky!",
+    "loadError": "Tsy afaka nampiditra ny lahatsoratry ny Baiboly.",
+    "bookNotFound": "Tsy hita io boky io.",
+    "chapterNotFound": "Tsy misy io toko io.",
+    "nextChapter": "Toko manaraka"
+  },
+  "context": {
+    "copyVerse": "Adika ny andininy",
+    "copyReference": "Adika ny fanondroana",
+    "copySelection": "Adika ny voafidy",
+    "searchVerse": "Tadiavo io andininy io",
+    "searchSelection": "Tadiavo ao amin'ny Baiboly",
+    "openVerse": "Sokafy ny andininy",
+    "copied": "Voavadika !"
   },
   "favorites": {
     "title": "Fifanakalozana",
     "empty": "Tsy misy fifanakalozana",
-    "emptyHint": "Tsindrio ny sofina ao akaikin'ny andiana mba hampetraka azy eto."
+    "emptyHint": "Tsindrio ny sofina ao akaikin'ny andiana mba hampetraka azy eto.",
+    "export": "Aondrana",
+    "import": "Ampidirina",
+    "exported": "Nondrana ny fifanakalozana.",
+    "imported": "{count} fifanakalozana nampidirina.",
+    "importError": "Tsy mety ny rakitra fifanakalozana."
   },
   "home": {
     "welcome": "Tongasoa eto amin'i Vivum",
     "subtitle": "Vakio ny tenin'Andriamanitra amin'ny fahamoramana",
-    "lastRead": "Vakivaky vao gena",
     "continue": "Ampitohizo ny fakiana",
-    "startReading": "Manomboka ny fakiana"
+    "startReading": "Manomboka ny fakiana",
+    "recentlyRead": "Vakivaky vao gena",
+    "lastFavorite": "Fifanakalozana farany"
   },
   "about": {
     "title": "Momba an'i Vivum",
@@ -71,6 +93,45 @@
     "f3": "Andininy tiana voatahiry amin'ity fitaovana ity",
     "tech": "Vita tamin'ny Tauri sy Angular.",
     "developedBy": "Noforonin'i",
-    "github": "Hita ao amin'ny GitHub"
+    "github": "Hita ao amin'ny GitHub",
+    "privacy": "Politika momba ny tsiambaratelo"
+  },
+  "privacy": {
+    "title": "Politika momba ny tsiambaratelo",
+    "updated": "Nohavaozina farany : 30 Oktobra 2026",
+    "intro": "Ny Vivum dia fampiharana famakiana Baiboly miasa ivelan'ny tambajotra tanteraka. Tsy manangona, tsy mandefa na mivarotra angon-drakitra manokana izahay.",
+    "s1Title": "1. Angon-drakitra angoninay",
+    "s1Text": "Tsy misy. Ny Vivum dia tsy manana kaonty ary tsy mangataka anarana, mailaka na mombamomba manokana. Tsy misy angon-drakitra fampiasana alefa any amin'ny mpizara — tsy mampiasa izahay.",
+    "s2Title": "2. Fiasana ivelan'ny tambajotra",
+    "s2Text": "Ny lahatsoratry ny Baiboly manontolo dia ao anatin'ny fampiharana. Ny famakiana, fikarohana sy fitetezana dia miasa tsy mila Internet ary tsy miteraka fifamoivoizana.",
+    "s3Title": "3. Angon-drakitra voatahiry amin'ny fitaovanao",
+    "s3Text": "Ny safidinao dia mijanona amin'ny fitaovanao ihany, ao amin'ny fitahirizana eo an-toerana :",
+    "s3Item1": "Andininy tiana (fanondroana, lahatsoratra sy daty nanampiana).",
+    "s3Item2": "Fiteny voafidy, toerana famakiana farany sy tantaran'ny famakiana vao haingana.",
+    "s3Item3": "Tsy mivoaka ny fitaovanao mihitsy ireo angona ireo raha tsy ianao manondrana azy. Voafafa izy ireo raha mamafa ny angon'ny fampiharana ianao na manala azy.",
+    "s4Title": "4. Fanaraha-maso, cookies sy doka",
+    "s4Text": "Ny Vivum dia tsy misy mpanara-maso, cookies avy amin'ny hafa, fitaovana famakafakana na doka. Tsy misy fanondroana doka na fandrefesana mpitsidika.",
+    "s5Title": "5. Rohy ivelany",
+    "s5Text": "Misy rohy mankany amin'ny GitHub (pejin'ny tetikasa sy mombamomba ny mpamorona) ny fampiharana. Raha manindry ireo rohy ireo ianao, ny politika momba ny tsiambaratelon'ny GitHub no mihatra.",
+    "s6Title": "6. Ankizy",
+    "s6Text": "Ny Vivum dia mety amin'ny sokajin-taona rehetra ary tsy manangona angon-drakitra momba ny ankizy.",
+    "s7Title": "7. Ny zonao (RGPD)",
+    "s7Text": "Satria tsy misy angon-drakitra manokana voaangona na ampitaina, dia tsy misy hojerena, haondrana na ahitsy aty aminay. Voafehinao tanteraka : afaka mamafa ny tianao sy ny safidinao ianao amin'ny fotoana rehetra.",
+    "s8Title": "8. Fifandraisana sy fanovana",
+    "s8Text": "Raha manana fanontaniana momba ity politika ity ianao, sokafy ny https://github.com/Martzcode/Vivum. Raha misy fanovana, havaozina ny daty etsy ambony.",
+    "manageTitle": "Fitantanana ny angonako",
+    "manageText": "Azonao atao ny mamafa ny fifanakalozanao sy ny tantaran'ny famakiana amin'ny fotoana rehetra. Tsy azo ivalozana io hetsika io.",
+    "clearData": "Hamafa ny angonako",
+    "clearConfirm": "Hanamarina ny famafana",
+    "cleared": "Voafafa ny fifanakalozanao sy ny tantaran'ny famakiana."
+  },
+  "common": {
+    "retry": "Avereno indray",
+    "cancel": "Ajanona"
+  },
+  "notFound": {
+    "title": "Tsy hita ny pejy",
+    "text": "Tsy misy ao amin'ny Vivum ny adiresy nangatahina.",
+    "back": "Hiverina any amin'ny antrano"
   }
 }

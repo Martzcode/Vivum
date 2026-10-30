@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '../pipes/translate.pipe';
 import { ExternalService } from '../services/external.service';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [TranslatePipe],
+  imports: [RouterLink, TranslatePipe],
   template: `
     <div class="about">
       <img class="about-logo" src="/logo.png" alt="Vivum" width="72" height="72">
@@ -34,6 +35,10 @@ import { ExternalService } from '../services/external.service';
         (click)="openExternal($event, 'https://github.com/Martzcode/Vivum')">
         {{ 'about.github' | t }}
       </a>
+
+      <p class="about-privacy">
+        <a routerLink="/privacy">{{ 'about.privacy' | t }}</a>
+      </p>
     </div>
   `,
   styles: [`
@@ -123,6 +128,20 @@ import { ExternalService } from '../services/external.service';
       color: var(--bg-primary);
       border-color: var(--accent);
       text-decoration: none;
+    }
+
+    .about-privacy {
+      margin: 16px 0 0;
+      font-size: 12px;
+    }
+
+    .about-privacy a {
+      color: var(--text-muted);
+      text-decoration: underline;
+    }
+
+    .about-privacy a:hover {
+      color: var(--accent);
     }
   `]
 })

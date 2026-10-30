@@ -54,11 +54,14 @@ export class TranslateService {
 
   t(key: string, params?: Record<string, string | number>): string {
     const locale = this.uiLocale();
-    const dict = this.translations.get(locale);
-    let value = this.resolve(dict, key) ?? key;
+    // Repli sur le français plutôt que d'afficher une clé brute.
+    let value =
+      this.resolve(this.translations.get(locale), key) ??
+      this.resolve(this.translations.get('fr'), key) ??
+      key;
     if (params) {
       for (const [k, v] of Object.entries(params)) {
-        value = value.replace(`{${k}}`, String(v));
+        value = value.replaceAll(`{${k}}`, String(v));
       }
     }
     return value;

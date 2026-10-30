@@ -25,19 +25,22 @@
     "title": "Search",
     "noResults": "No results for this search",
     "resultsCount": "{count} result(s) found",
-    "verses": "verses"
+    "verses": "verses",
+    "error": "The search could not be completed."
   },
   "aria": {
     "minimize": "Minimize",
     "maximize": "Maximize/Restore",
-    "close": "Close"
+    "close": "Close",
+    "search": "Search"
   },
   "nav": {
     "home": "Home",
     "bible": "Bible",
     "search": "Search",
     "favorites": "Favorites",
-    "about": "About"
+    "about": "About",
+    "privacy": "Privacy"
   },
   "bible": {
     "oldTestament": "Old Testament",
@@ -49,19 +52,38 @@
     "copyVerse": "Copy verse",
     "addFavorite": "Add to favorites",
     "removeFavorite": "Remove from favorites",
+    "copied": "Copied!",
+    "loadError": "Unable to load the biblical text.",
+    "bookNotFound": "This book could not be found.",
+    "chapterNotFound": "This chapter does not exist.",
+    "nextChapter": "Next chapter"
+  },
+  "context": {
+    "copyVerse": "Copy verse",
+    "copyReference": "Copy reference",
+    "copySelection": "Copy selection",
+    "searchVerse": "Search this verse",
+    "searchSelection": "Search the Bible",
+    "openVerse": "Open verse",
     "copied": "Copied!"
   },
   "favorites": {
     "title": "My Favorites",
     "empty": "No favorites yet",
-    "emptyHint": "Tap the heart icon near a verse to add it here."
+    "emptyHint": "Tap the heart icon near a verse to add it here.",
+    "export": "Export",
+    "import": "Import",
+    "exported": "Favorites exported.",
+    "imported": "{count} favorite(s) imported.",
+    "importError": "Invalid favorites file."
   },
   "home": {
     "welcome": "Welcome to Vivum",
     "subtitle": "Read the Word of God in peace",
-    "lastRead": "Last Reading",
     "continue": "Continue Reading",
-    "startReading": "Start Reading"
+    "startReading": "Start Reading",
+    "recentlyRead": "Recently read",
+    "lastFavorite": "Last favorite"
   },
   "about": {
     "title": "About Vivum",
@@ -71,6 +93,45 @@
     "f3": "Favorite verses kept on this device",
     "tech": "Built with Tauri and Angular.",
     "developedBy": "Developed by",
-    "github": "View on GitHub"
+    "github": "View on GitHub",
+    "privacy": "Privacy Policy"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "updated": "Last updated: October 30, 2026",
+    "intro": "Vivum is a Bible reading app that works fully offline. We do not collect, transmit, or sell any personal data.",
+    "s1Title": "1. Data we collect",
+    "s1Text": "None. Vivum has no accounts and asks for no name, email, or personal information. No usage data is ever sent to a server — we operate none.",
+    "s2Title": "2. Offline operation",
+    "s2Text": "The entire biblical text is bundled inside the app. Reading, searching, and browsing work without an Internet connection and generate no network traffic.",
+    "s3Title": "3. Data stored on your device",
+    "s3Text": "Your preferences stay exclusively on your device, in the app's local storage:",
+    "s3Item1": "Favorite verses (reference, text, and date added).",
+    "s3Item2": "Chosen display language, last reading position and recent reading history.",
+    "s3Item3": "This data never leaves your device unless you export it yourself. It is deleted if you clear the app data or uninstall the app.",
+    "s4Title": "4. Tracking, cookies, and ads",
+    "s4Text": "Vivum includes no trackers, no third-party cookies, no analytics tools, and no advertising. No advertising identifiers or audience measurement are used.",
+    "s5Title": "5. External links",
+    "s5Text": "The app contains links to GitHub (project page and developer profile). If you click these links, your browser is subject to GitHub's privacy policy, which is independent of this policy.",
+    "s6Title": "6. Children",
+    "s6Text": "Vivum is suitable for all ages and knowingly collects no data about children.",
+    "s7Title": "7. Your rights (GDPR)",
+    "s7Text": "Since no personal data is collected or transmitted, there is nothing for us to review, export, or correct. You stay in full control: you can delete your favorites and preferences at any time from within the app or by clearing local data.",
+    "s8Title": "8. Contact and changes",
+    "s8Text": "For any question about this policy, open an issue at https://github.com/Martzcode/Vivum. If changes are made, the update date above will be revised.",
+    "manageTitle": "Manage my data",
+    "manageText": "You can delete your favorites and reading history at any time. This action is permanent.",
+    "clearData": "Delete my data",
+    "clearConfirm": "Confirm deletion",
+    "cleared": "Your favorites and reading history have been deleted."
+  },
+  "common": {
+    "retry": "Retry",
+    "cancel": "Cancel"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The requested address does not exist in Vivum.",
+    "back": "Back to home"
   }
 }
