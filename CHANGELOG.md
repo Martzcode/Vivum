@@ -3,6 +3,35 @@
 Toutes les versions notables de Vivum sont documentées dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
+## [2026.10.30]
+
+### Added
+- Menu contextuel applicatif : actions adaptées aux versets (copier le verset ou la sélection, copier la référence, ajouter aux favoris, rechercher ce verset), aux favoris (ouvrir, retirer) et aux résultats de recherche ; navigation au clavier et fermeture par `Échap`
+- Reprise de lecture : bouton « Continuer la lecture » et historique « Récemment lus » sur l'accueil
+- Export et import des favoris au format JSON depuis la page Favoris
+- Page 404 pour les adresses inconnues
+- Section « Gérer mes données » dans la politique de confidentialité, avec suppression des favoris et de l'historique
+- États de chargement et d'erreur avec bouton « Réessayer » sur le lecteur, les livres, les chapitres et la recherche
+- Politique de confidentialité publiée dans le dépôt (`PRIVACY.md`)
+- Tests unitaires : favoris et migration, progression de lecture, recherche, menu contextuel, presse-papiers
+
+### Changed
+- Les favoris sont identifiés par version + référence : le même verset peut être épinglé dans plusieurs traductions, avec migration automatique de l'ancien format
+- Le lecteur, la liste des chapitres et la recherche se rechargent automatiquement au changement de langue
+- Les liens de recherche, de favoris et de l'accueil ouvrent le verset ciblé et le surlignent temporairement
+- Le menu natif de la WebView est remplacé par le menu contextuel applicatif, sauf dans les champs de saisie (couper/copier/coller)
+- Sécurité Tauri : CSP stricte et permissions minimales, ouverture de liens externes limitée au dépôt GitHub du projet
+- Politique de confidentialité mise à jour (export des favoris, historique de lecture, suppression des données)
+
+### Fixed
+- Recherche : suppression d'`innerHTML`, le surlignage est rendu en segments échappés par Angular
+- Navigations obsolètes : requêtes annulées et erreurs affichées explicitement au lieu de listes vides
+- Chapitres hors bornes : message dédié au lieu d'un écran vide
+- Suppression de l'`alert()` « À propos » et confirmation visible après copie d'un verset
+
+### Removed
+- Code mort des menus (`menus`, `onMenuAction`, `menu-button.component.ts`)
+
 ## [2026.10.04]
 
 ### Changed
