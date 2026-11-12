@@ -4,13 +4,14 @@ import { SlicePipe } from '@angular/common';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { FavoritesService } from '../../services/favorites.service';
 import { ProgressService } from '../../services/progress.service';
+import { DailyVerseComponent } from './daily-verse.component';
 import type { ReadingPosition } from '../../models/bible.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe, SlicePipe],
+  imports: [RouterLink, TranslatePipe, SlicePipe, DailyVerseComponent],
   template: `
     <div class="home">
       <div class="home-hero">
@@ -35,6 +36,8 @@ import type { ReadingPosition } from '../../models/bible.model';
           <a class="home-cta" routerLink="/bible">{{ 'home.startReading' | t }}</a>
         }
       </div>
+
+      <app-daily-verse />
 
       @if (recent().length > 0) {
         <div class="home-section">

@@ -85,6 +85,31 @@
     "recentlyRead": "Récemment lus",
     "lastFavorite": "Dernier favori"
   },
+  "dailyVerse": {
+    "title": "Verset du jour",
+    "theme": "Thème",
+    "allThemes": "Tous les thèmes",
+    "read": "Lire le passage",
+    "copy": "Copier le passage",
+    "copied": "Copié !",
+    "loading": "Chargement du verset du jour…",
+    "error": "Le verset du jour n'a pas pu être chargé.",
+    "attribution": "Thèmes : OpenBible.info",
+    "themes": {
+      "peace": "Paix",
+      "hope": "Espérance",
+      "wisdom": "Sagesse",
+      "love": "Amour",
+      "faith": "Foi",
+      "strength": "Force",
+      "comfort": "Consolation",
+      "gratitude": "Gratitude",
+      "forgiveness": "Pardon",
+      "salvation": "Salut",
+      "prayer": "Prière",
+      "joy": "Joie"
+    }
+  },
   "about": {
     "title": "À propos de Vivum",
     "description": "Vivum est une application de lecture de la Bible, simple et sereine. Le texte biblique est proposé en malagasy.",

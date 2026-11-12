@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "validate:daily-verses": "node scripts/check-daily-verses.js",
+    "import:daily-verses": "node scripts/import-openbible-topics.js",
     "tauri": "tauri",
     "tauri:dev": "tauri dev",
     "tauri:build": "tauri build"

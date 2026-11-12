@@ -33,6 +33,21 @@ npm run tauri:dev          # application desktop complète (ng serve + fenêtre 
 npm run tauri:build        # bundle natif dans src-tauri/target/release/bundle/
 ```
 
+## Verset du jour
+
+Le pool de passages est embarqué (`public/data/daily-verses.json`) : la
+sélection est déterministe, thématique et fonctionne hors ligne.
+
+```bash
+npm run validate:daily-verses   # vérifie les passages sur toutes les versions
+npm run import:daily-verses -- topics.txt --themes=Peace,Hope --merge
+```
+
+Conception, format des données et procédure d'import détaillés dans la
+documentation locale `docs/feature-verset-du-jour.md` (dossier `docs/` non
+versionné). Les associations thème → verset s'inspirent de l'index topique
+d'OpenBible.info (CC BY 4.0) ; l'attribution est affichée dans l'interface.
+
 ## Backend (Rust)
 
 La logique métier vit dans `src-tauri/` :

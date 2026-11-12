@@ -85,6 +85,31 @@
     "recentlyRead": "Recently read",
     "lastFavorite": "Last favorite"
   },
+  "dailyVerse": {
+    "title": "Verse of the Day",
+    "theme": "Theme",
+    "allThemes": "All themes",
+    "read": "Read the passage",
+    "copy": "Copy the passage",
+    "copied": "Copied!",
+    "loading": "Loading the verse of the day…",
+    "error": "The verse of the day could not be loaded.",
+    "attribution": "Themes: OpenBible.info",
+    "themes": {
+      "peace": "Peace",
+      "hope": "Hope",
+      "wisdom": "Wisdom",
+      "love": "Love",
+      "faith": "Faith",
+      "strength": "Strength",
+      "comfort": "Comfort",
+      "gratitude": "Gratitude",
+      "forgiveness": "Forgiveness",
+      "salvation": "Salvation",
+      "prayer": "Prayer",
+      "joy": "Joy"
+    }
+  },
   "about": {
     "title": "About Vivum",
     "description": "Vivum is a simple, serene Bible reading app.",

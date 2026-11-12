@@ -3,6 +3,17 @@
 Toutes les versions notables de Vivum sont documentées dans ce fichier.
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- **Verset du jour** sur l'accueil : pool embarqué de 129 passages (12 thèmes), sélection déterministe hors ligne, changement à minuit local, filtre par thème mémorisé et repli automatique si un passage manque dans une version
+- Import d'exports de l'index topique OpenBible.info (`npm run import:daily-verses`) et garde-fou qualité sur toutes les versions installées (`npm run validate:daily-verses`)
+- Libellés `dailyVerse.*` dans les locales fr, en, es et de, avec attribution OpenBible.info (CC BY 4.0)
+- Documentation locale de conception (`docs/feature-verset-du-jour.md`, dossier `docs/` non versionné)
+
+### Fixed
+- Environnement de test : `localStorage` fourni aux tests malgré le global expérimental `undefined` de Node 22+ (corrige les tests favoris, progression et traduction)
+
 ## [2026.10.05]
 
 ### Added
