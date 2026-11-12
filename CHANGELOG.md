@@ -6,9 +6,9 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 ## [Unreleased]
 
 ### Added
-- **Verset du jour** sur l'accueil : pool embarqué de 460 passages (12 thèmes), sélection déterministe hors ligne, changement à minuit local, filtre par thème mémorisé et repli automatique si un passage manque dans une version
+- **Verset du jour** sur l'accueil : pool embarqué de 460 passages (12 thèmes), sélection déterministe hors ligne, changement à minuit local et repli automatique si un passage manque dans une version
 - Import d'exports de l'index topique OpenBible.info (`npm run import:daily-verses`) et garde-fou qualité sur toutes les versions installées (`npm run validate:daily-verses`), avec un minimum de 367 passages exigé pour les releases
-- Libellés `dailyVerse.*` dans les locales fr, en, es et de, avec attribution OpenBible.info (CC BY 4.0)
+- Libellés `dailyVerse.*` dans les locales fr, en, es et de ; l'attribution OpenBible.info (CC BY 4.0) est indiquée dans le README
 - Documentation locale de conception (`docs/feature-verset-du-jour.md`, dossier `docs/` non versionné)
 
 ### Fixed

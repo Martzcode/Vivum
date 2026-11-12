@@ -4,7 +4,6 @@ import { TranslateService } from './translate.service';
 import type { DailyVersePool, DailyVerseState, DailyReading } from '../models/daily-verse.model';
 import {
   dailyEntrySequence,
-  filterByTheme,
   formatReference,
   localDateKey,
   parseDailyVersePool,
@@ -13,7 +12,6 @@ import {
 import type { Chapter, SupportedLocale } from '../models/bible.model';
 
 const POOL_URL = '/data/daily-verses.json';
-const THEME_KEY = 'vivum-daily-theme';
 /** Nombre d'entrées testées avant d'abandonner si un passage est introuvable. */
 const MAX_FALLBACKS = 7;
 
@@ -21,8 +19,7 @@ const MAX_FALLBACKS = 7;
  * « Verset du jour » 100 % hors ligne.
  *
  * Le pool de passages est un fichier embarqué ; la sélection est déterministe
- * (date locale + pool) et ne nécessite ni réseau, ni historique stocké. Le
- * thème choisi est mémorisé dans `localStorage` et filtre le pool.
+ * (date locale + pool) et ne nécessite ni réseau, ni historique stocké.
  */
 @Injectable({ providedIn: 'root' })
 export class DailyVerseService {
@@ -35,8 +32,6 @@ export class DailyVerseService {
   private midnightTimer?: ReturnType<typeof setTimeout>;
 
   readonly dayKey = signal(localDateKey(new Date()));
-  readonly theme = signal<string>(readTheme());
-  readonly themes = signal<string[]>([]);
   readonly state = signal<DailyVerseState>({ status: 'loading' });
 
   readonly reading = computed(() => {
@@ -44,14 +39,11 @@ export class DailyVerseService {
     return state.status === 'ready' ? state.reading : null;
   });
 
-  readonly themeOptions = computed(() => ['all', ...this.themes()]);
-
   constructor() {
     effect(() => {
       const locale = this.translate.currentLocale();
-      const theme = this.theme();
       const dayKey = this.dayKey();
-      void this.load(locale, theme, dayKey);
+      void this.load(locale, dayKey);
     });
 
     this.scheduleMidnightRefresh();
@@ -60,16 +52,7 @@ export class DailyVerseService {
 
   /** Recharge le passage courant (bouton « Réessayer »). */
   reload(): Promise<void> {
-    return this.load(this.translate.currentLocale(), this.theme(), this.dayKey());
-  }
-
-  setTheme(theme: string): void {
-    this.theme.set(theme);
-    try {
-      localStorage.setItem(THEME_KEY, theme);
-    } catch {
-      // Stockage indisponible : la préférence reste en mémoire.
-    }
+    return this.load(this.translate.currentLocale(), this.dayKey());
   }
 
   private getPool(): Promise<DailyVersePool> {
@@ -86,7 +69,7 @@ export class DailyVerseService {
     return parseDailyVersePool(await response.json());
   }
 
-  private async load(locale: SupportedLocale, theme: string, dayKey: string): Promise<void> {
+  private async load(locale: SupportedLocale, dayKey: string): Promise<void> {
     const token = ++this.loadToken;
     this.state.set({ status: 'loading' });
 
@@ -94,14 +77,7 @@ export class DailyVerseService {
       const [pool, books] = await Promise.all([this.getPool(), this.bible.getBooks()]);
       if (token !== this.loadToken) return;
 
-      this.themes.set(sortedThemes(pool));
-      const filtered = filterByTheme(pool.readings, theme);
-      if (filtered.length === 0) {
-        this.state.set({ status: 'error', messageKey: 'dailyVerse.error' });
-        return;
-      }
-
-      const candidates = dailyEntrySequence(filtered, dayKey, MAX_FALLBACKS);
+      const candidates = dailyEntrySequence(pool.readings, dayKey, MAX_FALLBACKS);
       for (const entry of candidates) {
         const book = books.find(item => item.id === entry.bookId);
         if (!book) continue;
@@ -163,18 +139,4 @@ export class DailyVerseService {
       Math.max(1_000, nextMidnight.getTime() - now.getTime()),
     );
   }
-}
-
-function readTheme(): string {
-  try {
-    return localStorage.getItem(THEME_KEY) ?? 'all';
-  } catch {
-    return 'all';
-  }
-}
-
-function sortedThemes(pool: DailyVersePool): string[] {
-  return [...new Set(pool.readings.map(entry => entry.theme))].sort((a, b) =>
-    a.localeCompare(b),
-  );
 }

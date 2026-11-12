@@ -75,41 +75,41 @@ import type { ReadingPosition } from '../../models/bible.model';
     .home {
       max-width: 600px;
       margin: 0 auto;
-      padding: 48px 24px;
+      padding: 24px 24px 40px;
     }
 
     .home-hero {
       text-align: center;
-      padding: 48px 0;
+      padding: 8px 0 24px;
     }
 
     .home-icon {
-      width: 64px;
-      height: 64px;
+      width: 44px;
+      height: 44px;
       color: var(--accent);
-      margin-bottom: 24px;
+      margin-bottom: 12px;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
       color: var(--text-primary);
-      margin: 0 0 8px;
+      margin: 0 0 4px;
     }
 
     .home-subtitle {
-      font-size: 16px;
+      font-size: 15px;
       color: var(--text-muted);
-      margin: 0 0 32px;
+      margin: 0 0 20px;
     }
 
     .home-cta {
       display: inline-block;
-      padding: 12px 32px;
+      padding: 10px 26px;
       background: var(--accent);
       color: var(--bg-primary);
       border-radius: var(--radius-md);
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       text-decoration: none;
       transition: background-color 0.15s ease;
@@ -121,7 +121,7 @@ import type { ReadingPosition } from '../../models/bible.model';
     }
 
     .home-section {
-      margin-top: 40px;
+      margin-top: 28px;
     }
 
     h2 {

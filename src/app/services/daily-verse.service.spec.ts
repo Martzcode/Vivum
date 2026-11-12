@@ -100,32 +100,19 @@ describe('DailyVerseService', () => {
     vi.unstubAllGlobals();
   });
 
-  it('loads a ready passage and exposes the themes of the pool', async () => {
+  it('loads a ready passage', async () => {
     stubFetch();
     const service = createService();
 
-    service.setTheme('hope');
     await service.reload();
 
     const state = service.state();
     expect(state.status).toBe('ready');
     if (state.status !== 'ready') return;
 
-    expect(state.reading.bookName).toBe('Psaumes');
-    expect(state.reading.reference).toBe('Psaumes 23:1-6');
-    expect(state.reading.verses).toHaveLength(6);
-    expect(state.reading.text).toContain('L’Éternel est mon berger');
-    expect(service.themes()).toEqual(['hope', 'peace']);
-    expect(service.themeOptions()).toEqual(['all', 'hope', 'peace']);
-  });
-
-  it('persists the selected theme locally', async () => {
-    stubFetch();
-    const service = createService();
-
-    service.setTheme('peace');
-
-    expect(localStorage.getItem('vivum-daily-theme')).toBe('peace');
+    expect(state.reading.reference).toContain(state.reading.bookName);
+    expect(state.reading.verses.length).toBeGreaterThan(0);
+    expect(state.reading.text.length).toBeGreaterThan(0);
   });
 
   it('falls back to the next passage when the selected one is missing', async () => {
@@ -134,7 +121,6 @@ describe('DailyVerseService', () => {
     stubFetch(`/${first.bookId}/${first.chapter}.json`);
 
     const service = createService();
-    service.setTheme('all');
     await service.reload();
 
     const state = service.state();

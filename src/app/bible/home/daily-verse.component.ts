@@ -11,15 +11,12 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TranslateService } from '../../services/translate.service';
 import { DailyVerseService } from '../../services/daily-verse.service';
 import { ClipboardService } from '../../services/clipboard.service';
-import { ExternalService } from '../../services/external.service';
-
-const SOURCE_URL = 'https://www.openbible.info/topics/';
 
 /**
  * Encart « verset du jour » de l'accueil.
  *
- * Le passage vient du pool embarqué, la sélection est déterministe et le
- * thème choisi est mémorisé localement. Aucun appel réseau.
+ * Le passage vient du pool embarqué et la sélection est déterministe.
+ * Aucun appel réseau.
  */
 @Component({
   selector: 'app-daily-verse',
@@ -82,28 +79,7 @@ const SOURCE_URL = 'https://www.openbible.info/topics/';
               </a>
             </div>
           </div>
-
-          <p class="daily-attribution">
-            <a [href]="sourceUrl" (click)="openSource($event)">{{ 'dailyVerse.attribution' | t }}</a>
-          </p>
         </article>
-      }
-
-      @if (themes().length > 1) {
-        <div class="daily-theme-row">
-          <label for="daily-theme-select">{{ 'dailyVerse.theme' | t }}</label>
-          <select
-            id="daily-theme-select"
-            class="daily-select"
-            [value]="theme()"
-            (change)="onThemeChange($event)">
-            @for (option of themeOptions(); track option) {
-              <option [value]="option" [selected]="option === theme()">
-                {{ option === 'all' ? ('dailyVerse.allThemes' | t) : themeName(option) }}
-              </option>
-            }
-          </select>
-        </div>
       }
     </section>
   `,
@@ -230,55 +206,16 @@ const SOURCE_URL = 'https://www.openbible.info/topics/';
       background: var(--accent-hover);
       border-color: var(--accent-hover);
     }
-
-    .daily-theme-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 12px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .daily-select {
-      padding: 4px 8px;
-      font-size: 12px;
-      color: var(--text-primary);
-      background: var(--bg-primary);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-sm);
-    }
-
-    .daily-select:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
-    }
-
-    .daily-attribution {
-      margin: 14px 0 0;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .daily-attribution a { color: var(--text-muted); }
-
-    .daily-attribution a:hover { color: var(--accent); }
   `],
 })
 export class DailyVerseComponent {
   private readonly daily = inject(DailyVerseService);
   private readonly translate = inject(TranslateService);
   private readonly clipboard = inject(ClipboardService);
-  private readonly external = inject(ExternalService);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly sourceUrl = SOURCE_URL;
   readonly state = this.daily.state;
   readonly reading = this.daily.reading;
-  readonly themes = this.daily.themes;
-  readonly theme = this.daily.theme;
-  readonly themeOptions = this.daily.themeOptions;
   readonly copied = signal(false);
 
   private copiedTimer?: ReturnType<typeof setTimeout>;
@@ -307,12 +244,6 @@ export class DailyVerseComponent {
     return this.translate.t(`dailyVerse.themes.${theme}`);
   }
 
-  onThemeChange(event: Event): void {
-    const select = event.target;
-    if (!(select instanceof HTMLSelectElement)) return;
-    this.daily.setTheme(select.value);
-  }
-
   reload(): void {
     void this.daily.reload();
   }
@@ -323,10 +254,5 @@ export class DailyVerseComponent {
     this.copied.set(true);
     clearTimeout(this.copiedTimer);
     this.copiedTimer = setTimeout(() => this.copied.set(false), 1600);
-  }
-
-  openSource(event: Event): void {
-    event.preventDefault();
-    void this.external.open(this.sourceUrl);
   }
 }

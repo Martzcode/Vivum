@@ -87,14 +87,11 @@
   },
   "dailyVerse": {
     "title": "Verset du jour",
-    "theme": "Thème",
-    "allThemes": "Tous les thèmes",
     "read": "Lire le passage",
     "copy": "Copier le passage",
     "copied": "Copié !",
     "loading": "Chargement du verset du jour…",
     "error": "Le verset du jour n'a pas pu être chargé.",
-    "attribution": "Thèmes : OpenBible.info",
     "themes": {
       "peace": "Paix",
       "hope": "Espérance",

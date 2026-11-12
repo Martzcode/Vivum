@@ -1,7 +1,6 @@
 import type { Chapter } from './bible.model';
 import {
   dailyEntrySequence,
-  filterByTheme,
   formatReference,
   localDateKey,
   localDayNumber,
@@ -58,12 +57,6 @@ describe('daily verse model', () => {
 
     const ids = dailyEntrySequence(pool, '2026-01-01', 23).map(entry => entry.id);
     expect(new Set(ids).size).toBe(23);
-  });
-
-  it('filters by theme and keeps all entries for "all"', () => {
-    expect(filterByTheme(entries, 'all')).toHaveLength(3);
-    expect(filterByTheme(entries, null)).toHaveLength(3);
-    expect(filterByTheme(entries, 'hope').map(entry => entry.id)).toEqual(['hope-romans-8-28']);
   });
 
   it('slices only the verses of the passage', () => {

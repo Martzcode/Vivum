@@ -87,14 +87,11 @@
   },
   "dailyVerse": {
     "title": "Vers des Tages",
-    "theme": "Thema",
-    "allThemes": "Alle Themen",
     "read": "Abschnitt lesen",
     "copy": "Abschnitt kopieren",
     "copied": "Kopiert!",
     "loading": "Vers des Tages wird geladen…",
     "error": "Der Vers des Tages konnte nicht geladen werden.",
-    "attribution": "Themen: OpenBible.info",
     "themes": {
       "peace": "Frieden",
       "hope": "Hoffnung",

@@ -131,15 +131,6 @@ export function pickDailyEntry(
   return dailyEntrySequence(entries, dateKey, 1)[0] ?? null;
 }
 
-/** Filtre thématique ; `all` (ou une chaîne vide) conserve tout le pool. */
-export function filterByTheme(
-  entries: DailyVerseEntry[],
-  theme: string | null | undefined,
-): DailyVerseEntry[] {
-  if (!theme || theme === 'all') return entries;
-  return entries.filter(entry => entry.theme === theme);
-}
-
 /**
  * Versets du passage effectivement présents dans le chapitre chargé.
  * Retourne un tableau vide si la plage n'existe pas dans cette version :

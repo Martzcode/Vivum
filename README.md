@@ -46,8 +46,10 @@ npm run import:daily-verses -- topic-votes.txt --themes=Peace,Hope --merge
 
 Conception, format des données et procédure d'import détaillés dans la
 documentation locale `docs/feature-verset-du-jour.md` (dossier `docs/` non
-versionné). Les associations thème → verset s'inspirent de l'index topique
-d'OpenBible.info (CC BY 4.0) ; l'attribution est affichée dans l'interface.
+versionné). Les associations thème → verset s'inspirent de l'[index topique
+d'OpenBible.info](https://www.openbible.info/topics/), publié sous licence
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Attribution :
+OpenBible.info.
 
 ## Backend (Rust)
 

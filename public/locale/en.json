@@ -87,14 +87,11 @@
   },
   "dailyVerse": {
     "title": "Verse of the Day",
-    "theme": "Theme",
-    "allThemes": "All themes",
     "read": "Read the passage",
     "copy": "Copy the passage",
     "copied": "Copied!",
     "loading": "Loading the verse of the day…",
     "error": "The verse of the day could not be loaded.",
-    "attribution": "Themes: OpenBible.info",
     "themes": {
       "peace": "Peace",
       "hope": "Hope",
