@@ -86,6 +86,79 @@ const OSIS_BOOKS = {
   Rev: 'revelation',
 };
 
+/**
+ * Ordre canonique protestant (1–66), identique aux dossiers de
+ * `public/bibles`. Sert à décoder les identifiants OpenBible `bbcccvvv`.
+ */
+const OPENBIBLE_BOOKS = [
+  'genesis',
+  'exodus',
+  'leviticus',
+  'numbers',
+  'deuteronomy',
+  'joshua',
+  'judges',
+  'ruth',
+  '1-samuel',
+  '2-samuel',
+  '1-kings',
+  '2-kings',
+  '1-chronicles',
+  '2-chronicles',
+  'ezra',
+  'nehemiah',
+  'esther',
+  'job',
+  'psalms',
+  'proverbs',
+  'ecclesiastes',
+  'song-of-solomon',
+  'isaiah',
+  'jeremiah',
+  'lamentations',
+  'ezekiel',
+  'daniel',
+  'hosea',
+  'joel',
+  'amos',
+  'obadiah',
+  'jonah',
+  'micah',
+  'nahum',
+  'habakkuk',
+  'zephaniah',
+  'haggai',
+  'zechariah',
+  'malachi',
+  'matthew',
+  'mark',
+  'luke',
+  'john',
+  'acts',
+  'romans',
+  '1-corinthians',
+  '2-corinthians',
+  'galatians',
+  'ephesians',
+  'philippians',
+  'colossians',
+  '1-thessalonians',
+  '2-thessalonians',
+  '1-timothy',
+  '2-timothy',
+  'titus',
+  'philemon',
+  'hebrews',
+  'james',
+  '1-peter',
+  '2-peter',
+  '1-john',
+  '2-john',
+  '3-john',
+  'jude',
+  'revelation',
+];
+
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
@@ -213,6 +286,52 @@ function parseOsisRef(value) {
   return { bookId, chapter, startVerse, endVerse: Number(range[6]) };
 }
 
+/** Décode un identifiant OpenBible `bbcccvvv` (livre, chapitre, verset). */
+function parseOpenBibleId(value) {
+  if (typeof value !== 'string') return null;
+  const normalized = value.trim();
+  if (!/^\d{8}$/.test(normalized)) return null;
+
+  const book = Number(normalized.slice(0, 2));
+  const chapter = Number(normalized.slice(2, 5));
+  const verse = Number(normalized.slice(5, 8));
+  const bookId = OPENBIBLE_BOOKS[book - 1];
+  if (!bookId || chapter < 1 || verse < 1) return null;
+
+  return { bookId, chapter, verse };
+}
+
+/**
+ * Parse une ligne de l'export `topic-votes.txt` d'OpenBible :
+ * `Start Verse ID` (`01001001`) et `End Verse ID` optionnel. Les plages qui
+ * traversent deux chapitres ne sont pas prises en charge (retour `null`).
+ */
+function parseOpenBibleRef(startValue, endValue) {
+  const start = parseOpenBibleId(startValue);
+  if (!start) return null;
+
+  if (!endValue || String(endValue).trim() === '') {
+    return {
+      bookId: start.bookId,
+      chapter: start.chapter,
+      startVerse: start.verse,
+      endVerse: start.verse,
+    };
+  }
+
+  const end = parseOpenBibleId(endValue);
+  if (!end) return null;
+  if (end.bookId !== start.bookId || end.chapter !== start.chapter) return null;
+  if (end.verse < start.verse) return null;
+
+  return {
+    bookId: start.bookId,
+    chapter: start.chapter,
+    startVerse: start.verse,
+    endVerse: end.verse,
+  };
+}
+
 /** « Peace », « Peur et anxiété » → clé de thème stable (`peace`, `peur-et-anxiete`). */
 function slugifyTopic(topic) {
   return topic
@@ -236,6 +355,7 @@ module.exports = {
   MANIFEST_PATH,
   POOL_PATH,
   OSIS_BOOKS,
+  OPENBIBLE_BOOKS,
   readJson,
   loadManifest,
   loadPool,
@@ -243,6 +363,8 @@ module.exports = {
   readChapter,
   validateEntry,
   parseOsisRef,
+  parseOpenBibleId,
+  parseOpenBibleRef,
   slugifyTopic,
   entryId,
 };

@@ -4,22 +4,30 @@
  * Importe un export de l'index topique OpenBible.info vers le pool
  * « verset du jour » embarqué.
  *
- * OpenBible propose des exports de thèmes (CC BY 4.0) au format tabulé :
- * `Topic <TAB> Verse(OSIS) <TAB> Rank`. Les CSV et les fichiers sans en-tête
- * sont aussi acceptés ; la colonne de référence est détectée automatiquement.
+ * OpenBible propose des exports de thèmes (CC BY 4.0) :
  *
- * Seuls les passages présents dans TOUTES les versions installées et dont la
- * longueur reste raisonnable sont conservés. Le texte biblique n'est jamais
- * importé : il est déjà dans le corpus public-domain de l'application.
+ *  - `https://a.openbible.info/data/topic-votes.txt` — format historique
+ *    `Topic <TAB> Start Verse ID <TAB> End Verse ID <TAB> Votes`, où les
+ *    identifiants sont des nombres `bbcccvvv` ;
+ *  - export topique TSV/CSV `Topic <TAB> Verse(OSIS) <TAB> Rank`.
+ *
+ * Les fichiers sans en-tête sont acceptés ; le format de référence est
+ * détecté automatiquement. Seuls les passages présents dans TOUTES les
+ * versions installées et dont la longueur reste raisonnable sont conservés.
+ * Le texte biblique n'est jamais importé : il est déjà dans le corpus
+ * public-domain de l'application.
  *
  * Usage :
  *   node scripts/import-openbible-topics.js topics.txt
- *   node scripts/import-openbible-topics.js topics.txt --themes=Peace,Hope
+ *   node scripts/import-openbible-topics.js topic-votes.txt --themes=Peace,Hope
  *   node scripts/import-openbible-topics.js topics.txt --themes=Peace,Love \
  *       --per-theme=30 --merge
  *
  * Options :
  *   --themes=a,b      filtre les sujets (nom ou clé, insensible à la casse)
+ *   --exclude-books=a,b  exclut des livres (ex. `psalms` : décalage de
+ *                     versification entre l'ESV d'OpenBible et le corpus)
+ *   --blocklist=FILE  références exclues (défaut : scripts/daily-verses-blocklist.json)
  *   --per-theme=N     nombre max de passages par thème (défaut : 25)
  *   --min=N --max=N   bornes de longueur du texte (défaut : 30 / 700)
  *   --out=FILE        fichier de sortie (défaut : public/data/daily-verses.json)
@@ -42,6 +50,7 @@ const {
   listVersions,
   validateEntry,
   parseOsisRef,
+  parseOpenBibleRef,
   slugifyTopic,
   entryId,
 } = require('./lib/daily-verses');
@@ -50,10 +59,12 @@ const args = process.argv.slice(2);
 const input = args.find(arg => !arg.startsWith('--'));
 const options = {
   themes: readListArg(args, '--themes'),
+  excludeBooks: readListArg(args, '--exclude-books') || [],
   perTheme: readNumberArg(args, '--per-theme', 25),
   minChars: readNumberArg(args, '--min', 30),
   maxChars: readNumberArg(args, '--max', 700),
   out: readValueArg(args, '--out') || POOL_PATH,
+  blocklist: readValueArg(args, '--blocklist') || path.join(__dirname, 'daily-verses-blocklist.json'),
   merge: args.includes('--merge'),
   dryRun: args.includes('--dry-run'),
 };
@@ -95,13 +106,22 @@ function main() {
   const books = loadManifest().books;
   const versions = listVersions();
   const rows = parseRows(fs.readFileSync(file, 'utf8'));
+  const blocklist = loadBlocklist(options.blocklist);
 
   const filter = options.themes
     ? new Set(options.themes.map(topic => slugifyTopic(topic)))
     : null;
 
   const selected = [];
-  const rejected = { unknownBook: 0, invalidRef: 0, outOfCorpus: 0, tooShort: 0, tooLong: 0 };
+  const rejected = {
+    unknownBook: 0,
+    invalidRef: 0,
+    excludedBook: 0,
+    outOfCorpus: 0,
+    tooShort: 0,
+    tooLong: 0,
+    blocked: 0,
+  };
   const perTheme = new Map();
   const seen = new Set();
 
@@ -110,13 +130,17 @@ function main() {
     if (!theme) continue;
     if (filter && !filter.has(theme)) continue;
 
-    const ref = parseOsisRef(row.ref);
+    const ref = row.ref;
     if (!ref) {
       rejected.invalidRef++;
       continue;
     }
     if (!books.some(book => book.id === ref.bookId)) {
       rejected.unknownBook++;
+      continue;
+    }
+    if (options.excludeBooks.includes(ref.bookId)) {
+      rejected.excludedBook++;
       continue;
     }
 
@@ -141,6 +165,10 @@ function main() {
     }
 
     const id = entryId(theme, ref);
+    if (blocklist.has(id)) {
+      rejected.blocked++;
+      continue;
+    }
     if (seen.has(id)) continue;
     seen.add(id);
 
@@ -177,8 +205,9 @@ function main() {
   console.log(`Pool final         : ${readings.length} passage(s)`);
   console.log(
     `Rejetés            : ${rejected.invalidRef} référence(s) invalide(s), ` +
+      `${rejected.unknownBook} livre(s) inconnu(s), ${rejected.excludedBook} exclu(s), ` +
       `${rejected.outOfCorpus} hors corpus, ${rejected.tooShort} trop court(s), ` +
-      `${rejected.tooLong} trop long(s)`,
+      `${rejected.tooLong} trop long(s), ${rejected.blocked} exclu(s) par la liste de curation`,
   );
 
   const filteredThemes = [...perTheme.keys()].sort();
@@ -201,7 +230,7 @@ function main() {
   console.log('Vérifiez ensuite avec : npm run validate:daily-verses');
 }
 
-/** Détecte le séparateur et la colonne de référence OSIS. */
+/** Détecte le séparateur et le format de référence (OSIS ou OpenBible). */
 function parseRows(content) {
   const lines = content
     .split(/\r?\n/)
@@ -212,6 +241,30 @@ function parseRows(content) {
   for (const line of lines) {
     const cells = line.includes('\t') ? line.split('\t') : line.split(',');
     const cleaned = cells.map(cell => cell.trim().replace(/^"|"$/g, ''));
+    if (cleaned.length < 2) continue;
+
+    // Export `topic-votes.txt` : Topic <TAB> Start Verse ID <TAB> End Verse ID <TAB> Votes.
+    // Les identifiants OpenBible sont des nombres à 8 chiffres, jamais des références OSIS.
+    const startIndex = cleaned.findIndex(
+      (cell, index) => index > 0 && /^\d{8}$/.test(cell),
+    );
+    if (startIndex !== -1) {
+      const topic = cleaned[0];
+      if (!topic) continue;
+
+      const endCell =
+        cleaned[startIndex + 1] && /^\d{8}$/.test(cleaned[startIndex + 1])
+          ? cleaned[startIndex + 1]
+          : '';
+      const ref = parseOpenBibleRef(cleaned[startIndex], endCell);
+      if (!ref) continue;
+
+      const rankCells = cleaned
+        .slice(startIndex)
+        .filter(cell => /^\d+$/.test(cell) && cell.length !== 8);
+      rows.push({ topic, ref, rank: Number(rankCells[0] ?? 0) });
+      continue;
+    }
 
     const refIndex = cleaned.findIndex(cell => parseOsisRef(cell) !== null);
     if (refIndex === -1) continue;
@@ -219,10 +272,18 @@ function parseRows(content) {
     const topic = cleaned[0] && cleaned[0] !== cleaned[refIndex] ? cleaned[0] : '';
     if (!topic) continue;
 
+    const ref = parseOsisRef(cleaned[refIndex]);
     const rankCells = cleaned.filter((cell, index) => index !== refIndex && /^\d+$/.test(cell));
-    rows.push({ topic, ref: cleaned[refIndex], rank: Number(rankCells[0] ?? 0) });
+    rows.push({ topic, ref, rank: Number(rankCells[0] ?? 0) });
   }
   return rows;
+}
+
+function loadBlocklist(file) {
+  if (!file || !fs.existsSync(file)) return new Set();
+  const value = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const ids = Array.isArray(value) ? value : value.ids;
+  return new Set(Array.isArray(ids) ? ids.filter(id => typeof id === 'string') : []);
 }
 
 function safeLoadPool() {

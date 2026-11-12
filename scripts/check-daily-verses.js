@@ -8,10 +8,11 @@
  *  - chaque passage existe dans TOUTES les versions installées ;
  *  - longueur du texte dans des bornes raisonnables (évite les versets
  *    trop courts, hors contexte, et les blocs qui cassent la mise en page) ;
- *  - thèmes présents dans les traductions (`dailyVerse.themes.*`).
+ *  - thèmes présents dans les traductions (`dailyVerse.themes.*`) ;
+ *  - taille minimale du pool pour une release (`--min-readings`, défaut 367).
  *
  * Usage :
- *   node scripts/check-daily-verses.js [--min=30] [--max=700]
+ *   node scripts/check-daily-verses.js [--min=30] [--max=700] [--min-readings=367]
  *
  * Code de sortie 1 si une erreur est détectée (utilisable en CI).
  */
@@ -32,6 +33,7 @@ const {
 const args = process.argv.slice(2);
 const minChars = readNumberArg(args, '--min', 30);
 const maxChars = readNumberArg(args, '--max', 700);
+const minReadings = readNumberArg(args, '--min-readings', 367);
 
 function readNumberArg(list, name, fallback) {
   const prefix = `${name}=`;
@@ -56,6 +58,12 @@ function main() {
     return;
   }
 
+  if (pool.readings.length < minReadings) {
+    errors.push(
+      `le pool doit contenir au moins ${minReadings} passages (actuellement ${pool.readings.length})`,
+    );
+  }
+
   for (const entry of pool.readings) {
     const label = entry.id || '(sans id)';
     if (!entry.id) errors.push(`${label} : identifiant manquant`);
@@ -77,6 +85,7 @@ function main() {
   }
 
   console.log(`Passages : ${pool.readings.length}`);
+  console.log(`Release  : ${minReadings} passages minimum`);
   console.log(`Versions  : ${versions.join(', ')}`);
   console.log(
     `Thèmes    : ${[...byTheme.entries()]

@@ -35,12 +35,13 @@ npm run tauri:build        # bundle natif dans src-tauri/target/release/bundle/
 
 ## Verset du jour
 
-Le pool de passages est embarqué (`public/data/daily-verses.json`) : la
-sélection est déterministe, thématique et fonctionne hors ligne.
+Le pool de 460 passages est embarqué (`public/data/daily-verses.json`) : la
+sélection est déterministe, thématique et fonctionne hors ligne, sans
+répétition pendant plus d'une année.
 
 ```bash
-npm run validate:daily-verses   # vérifie les passages sur toutes les versions
-npm run import:daily-verses -- topics.txt --themes=Peace,Hope --merge
+npm run validate:daily-verses   # vérifie les passages et le minimum de 367
+npm run import:daily-verses -- topic-votes.txt --themes=Peace,Hope --merge
 ```
 
 Conception, format des données et procédure d'import détaillés dans la
