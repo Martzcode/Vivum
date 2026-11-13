@@ -59,24 +59,39 @@ import { ClipboardService } from '../../services/clipboard.service';
             </a>
 
             <div class="daily-actions">
-              <button
-                type="button"
-                class="daily-btn"
-                [attr.aria-label]="'dailyVerse.copy' | t"
-                [title]="'dailyVerse.copy' | t"
-                (click)="copyPassage(passage.text, passage.reference)">
-                @if (copied()) {
-                  {{ 'dailyVerse.copied' | t }}
-                } @else {
-                  {{ 'dailyVerse.copy' | t }}
-                }
-              </button>
-              <a
-                class="daily-btn daily-btn-primary"
-                [routerLink]="['/bible', passage.bookId, passage.chapter]"
-                [fragment]="'v' + passage.startVerse">
-                {{ 'dailyVerse.read' | t }}
-              </a>
+              <span
+                class="daily-action-wrap"
+                [attr.data-tooltip]="copied() ? ('dailyVerse.copied' | t) : ('dailyVerse.copy' | t)">
+                <button
+                  type="button"
+                  class="daily-icon-btn"
+                  [attr.aria-label]="'dailyVerse.copy' | t"
+                  (click)="copyPassage(passage.text, passage.reference)">
+                  @if (copied()) {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                      <path d="M20 6 9 17l-5-5"/>
+                    </svg>
+                  } @else {
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                  }
+                </button>
+              </span>
+
+              <span class="daily-action-wrap" [attr.data-tooltip]="'dailyVerse.read' | t">
+                <a
+                  class="daily-icon-btn daily-icon-btn-primary"
+                  [routerLink]="['/bible', passage.bookId, passage.chapter]"
+                  [fragment]="'v' + passage.startVerse"
+                  [attr.aria-label]="'dailyVerse.read' | t">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                  </svg>
+                </a>
+              </span>
             </div>
           </div>
         </article>
@@ -178,6 +193,7 @@ import { ClipboardService } from '../../services/clipboard.service';
 
     .daily-btn {
       display: inline-block;
+      margin-top: 4px;
       padding: 6px 12px;
       font-size: 12px;
       font-weight: 600;
@@ -186,6 +202,7 @@ import { ClipboardService } from '../../services/clipboard.service';
       border: 1px solid var(--border-light);
       border-radius: var(--radius-md);
       text-decoration: none;
+      cursor: pointer;
       transition: all 0.15s ease;
     }
 
@@ -195,13 +212,71 @@ import { ClipboardService } from '../../services/clipboard.service';
       text-decoration: none;
     }
 
-    .daily-btn-primary {
+    .daily-action-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .daily-action-wrap::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 7px);
+      left: 50%;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.2;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 2px);
+      transition: opacity 0.12s ease, transform 0.12s ease;
+      z-index: 2;
+    }
+
+    .daily-action-wrap:hover::after,
+    .daily-action-wrap:focus-within::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .daily-icon-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      color: var(--text-secondary);
+      background: var(--bg-primary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .daily-icon-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-dark);
+      text-decoration: none;
+    }
+
+    .daily-icon-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .daily-icon-btn-primary {
       color: var(--bg-primary);
       background: var(--accent);
       border-color: var(--accent);
     }
 
-    .daily-btn-primary:hover {
+    .daily-icon-btn-primary:hover {
       color: var(--bg-primary);
       background: var(--accent-hover);
       border-color: var(--accent-hover);
