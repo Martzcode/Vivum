@@ -5,11 +5,24 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [2026.11.02]
+
+### Fixed
+- **Écran sans mise en forme en version installée** : la CSP de production (`script-src 'self'`) bloquait le gestionnaire `onload` que l'optimisation Angular ajoutait sur la feuille de style globale, si bien qu'aucun style n'était appliqué (contenu masqué par les icônes SVG non dimensionnées). L'inlining du CSS critique est désactivé et la feuille de style est chargée normalement
+- CSP : `base-uri 'none'` remplacé par `base-uri 'self'` pour ne plus invalider le `<base href="/">` de l'application
+
+## [2026.11.01]
+
 ### Added
 - **Verset du jour** sur l'accueil : pool embarqué de 460 passages (12 thèmes), sélection déterministe hors ligne, changement à minuit local et repli automatique si un passage manque dans une version
 - Import d'exports de l'index topique OpenBible.info (`npm run import:daily-verses`) et garde-fou qualité sur toutes les versions installées (`npm run validate:daily-verses`), avec un minimum de 367 passages exigé pour les releases
 - Libellés `dailyVerse.*` dans les locales fr, en, es et de ; l'attribution OpenBible.info (CC BY 4.0) est indiquée dans le README
 - Documentation locale de conception (`docs/feature-verset-du-jour.md`, dossier `docs/` non versionné)
+- Tests unitaires du verset du jour : sélection déterministe, passages de secours et chargement du pool
+
+### Changed
+- Accueil compacté : le verset du jour passe en encart principal et les actions du passage (copier, lire) deviennent des boutons-icônes avec infobulle
+- Pool du verset du jour porté à 460 passages, avec blocage des passages problématiques et messages de chargement/erreur dédiés
 
 ### Fixed
 - Environnement de test : `localStorage` fourni aux tests malgré le global expérimental `undefined` de Node 22+ (corrige les tests favoris, progression et traduction)
