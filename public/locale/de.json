@@ -56,7 +56,18 @@
     "loadError": "Der Bibeltext konnte nicht geladen werden.",
     "bookNotFound": "Dieses Buch wurde nicht gefunden.",
     "chapterNotFound": "Dieses Kapitel existiert nicht.",
-    "nextChapter": "Nächstes Kapitel"
+    "nextChapter": "Nächstes Kapitel",
+    "highlight": "Markieren",
+    "removeHighlight": "Markierung entfernen",
+    "addNote": "Notiz hinzufügen",
+    "editNote": "Notiz bearbeiten",
+    "createImage": "Bild erstellen",
+    "colors": {
+      "yellow": "Gelb",
+      "green": "Grün",
+      "blue": "Blau",
+      "pink": "Rosa"
+    }
   },
   "context": {
     "copyVerse": "Vers kopieren",
@@ -65,7 +76,9 @@
     "searchVerse": "Diesen Vers suchen",
     "searchSelection": "In der Bibel suchen",
     "openVerse": "Vers öffnen",
-    "copied": "Kopiert!"
+    "copied": "Kopiert!",
+    "addNote": "Notiz hinzufügen",
+    "createImage": "Bild erstellen"
   },
   "favorites": {
     "title": "Meine Favoriten",
@@ -155,5 +168,38 @@
     "title": "Seite nicht gefunden",
     "text": "Die angeforderte Adresse existiert in Vivum nicht.",
     "back": "Zurück zur Startseite"
+  },
+  "note": {
+    "placeholder": "Deine persönliche Notiz…",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen"
+  },
+  "share": {
+    "title": "Versbild",
+    "theme": "Design",
+    "format": "Format",
+    "themes": {
+      "cream": "Creme",
+      "sage": "Salbei",
+      "night": "Nacht"
+    },
+    "formats": {
+      "square": "Quadrat",
+      "portrait": "Hochformat"
+    },
+    "save": "Speichern",
+    "copy": "Kopieren",
+    "saved": "Bild gespeichert.",
+    "copied": "Bild kopiert.",
+    "error": "Vorgang fehlgeschlagen.",
+    "close": "Schließen"
+  },
+  "jump": {
+    "open": "Gehe zu…",
+    "title": "Zu einer Stelle gehen",
+    "placeholder": "Johannes 3,16, Psalmen 23, 1 Kor 13…",
+    "hint": "Gib ein Buch, ein Kapitel und einen Vers ein.",
+    "noMatch": "Kein passendes Buch."
   }
 }

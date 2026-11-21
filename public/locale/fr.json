@@ -56,7 +56,18 @@
     "loadError": "Impossible de charger le texte biblique.",
     "bookNotFound": "Ce livre est introuvable.",
     "chapterNotFound": "Ce chapitre n'existe pas.",
-    "nextChapter": "Chapitre suivant"
+    "nextChapter": "Chapitre suivant",
+    "highlight": "Surligner",
+    "removeHighlight": "Retirer le surlignage",
+    "addNote": "Ajouter une note",
+    "editNote": "Modifier la note",
+    "createImage": "Créer une image",
+    "colors": {
+      "yellow": "Jaune",
+      "green": "Vert",
+      "blue": "Bleu",
+      "pink": "Rose"
+    }
   },
   "context": {
     "copyVerse": "Copier le verset",
@@ -65,7 +76,9 @@
     "searchVerse": "Rechercher ce verset",
     "searchSelection": "Rechercher dans la Bible",
     "openVerse": "Ouvrir le verset",
-    "copied": "Copié !"
+    "copied": "Copié !",
+    "addNote": "Ajouter une note",
+    "createImage": "Créer une image"
   },
   "favorites": {
     "title": "Mes Favoris",
@@ -155,5 +168,38 @@
     "title": "Page introuvable",
     "text": "L'adresse demandée n'existe pas dans Vivum.",
     "back": "Retour à l'accueil"
+  },
+  "note": {
+    "placeholder": "Votre note personnelle…",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer"
+  },
+  "share": {
+    "title": "Image du verset",
+    "theme": "Thème",
+    "format": "Format",
+    "themes": {
+      "cream": "Crème",
+      "sage": "Sauge",
+      "night": "Nuit"
+    },
+    "formats": {
+      "square": "Carré",
+      "portrait": "Portrait"
+    },
+    "save": "Enregistrer",
+    "copy": "Copier",
+    "saved": "Image enregistrée.",
+    "copied": "Image copiée.",
+    "error": "L'opération a échoué.",
+    "close": "Fermer"
+  },
+  "jump": {
+    "open": "Aller à…",
+    "title": "Aller à une référence",
+    "placeholder": "Jean 3:16, Psaumes 23, 1 Cor 13…",
+    "hint": "Tapez un livre, un chapitre et un verset.",
+    "noMatch": "Aucun livre correspondant."
   }
 }

@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { LanguageSwitcherComponent } from '../components/language-switcher/language-switcher.component';
 import { TranslatePipe } from '../pipes/translate.pipe';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import { QuickJumpService } from '../services/quick-jump.service';
 
 @Component({
   selector: 'app-titlebar',
@@ -47,6 +48,13 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
       </nav>
 
       <div class="titlebar-spacer"></div>
+
+      <button type="button" class="window-control" (click)="jump.show()" [title]="('jump.open' | t) + ' (Ctrl+K)'" [attr.aria-label]="'jump.open' | t">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="m9 18 6-6-6-6"/>
+          <path d="M4 6v12"/>
+        </svg>
+      </button>
 
       <div class="titlebar-search">
         <div class="search-input-wrapper">
@@ -137,6 +145,7 @@ export class TitleBarComponent implements OnInit, OnDestroy {
   private readonly appWindow = getCurrentWindow();
   private unlistenResized?: () => void;
   private router = inject(Router);
+  protected readonly jump = inject(QuickJumpService);
 
   isMaximized = signal(false);
   searchQuery = signal('');

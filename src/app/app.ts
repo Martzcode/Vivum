@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ContextMenuComponent } from './components/context-menu';
+import { QuickJumpComponent } from './components/quick-jump/quick-jump.component';
+import { ShareCardDialogComponent } from './components/share-card/share-card-dialog.component';
 import type { ContextMenuItem } from './components/context-menu';
 import { TitleBarComponent } from './titlebar';
 import { ClipboardService } from './services/clipboard.service';
@@ -9,7 +11,7 @@ import { TranslateService } from './services/translate.service';
 import { toSearchQuery } from './utils/query';
 
 @Component({
-  imports: [RouterOutlet, TitleBarComponent, ContextMenuComponent],
+  imports: [RouterOutlet, TitleBarComponent, ContextMenuComponent, QuickJumpComponent, ShareCardDialogComponent],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',

@@ -56,7 +56,18 @@
     "loadError": "No se pudo cargar el texto bíblico.",
     "bookNotFound": "No se encuentra este libro.",
     "chapterNotFound": "Este capítulo no existe.",
-    "nextChapter": "Capítulo siguiente"
+    "nextChapter": "Capítulo siguiente",
+    "highlight": "Resaltar",
+    "removeHighlight": "Quitar el resaltado",
+    "addNote": "Añadir una nota",
+    "editNote": "Editar la nota",
+    "createImage": "Crear una imagen",
+    "colors": {
+      "yellow": "Amarillo",
+      "green": "Verde",
+      "blue": "Azul",
+      "pink": "Rosa"
+    }
   },
   "context": {
     "copyVerse": "Copiar el versículo",
@@ -65,7 +76,9 @@
     "searchVerse": "Buscar este versículo",
     "searchSelection": "Buscar en la Biblia",
     "openVerse": "Abrir el versículo",
-    "copied": "¡Copiado!"
+    "copied": "¡Copiado!",
+    "addNote": "Añadir una nota",
+    "createImage": "Crear una imagen"
   },
   "favorites": {
     "title": "Mis Favoritos",
@@ -155,5 +168,38 @@
     "title": "Página no encontrada",
     "text": "La dirección solicitada no existe en Vivum.",
     "back": "Volver al inicio"
+  },
+  "note": {
+    "placeholder": "Tu nota personal…",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar"
+  },
+  "share": {
+    "title": "Imagen del versículo",
+    "theme": "Tema",
+    "format": "Formato",
+    "themes": {
+      "cream": "Crema",
+      "sage": "Salvia",
+      "night": "Noche"
+    },
+    "formats": {
+      "square": "Cuadrado",
+      "portrait": "Vertical"
+    },
+    "save": "Guardar",
+    "copy": "Copiar",
+    "saved": "Imagen guardada.",
+    "copied": "Imagen copiada.",
+    "error": "La operación falló.",
+    "close": "Cerrar"
+  },
+  "jump": {
+    "open": "Ir a…",
+    "title": "Ir a una referencia",
+    "placeholder": "Juan 3:16, Salmos 23, 1 Cor 13…",
+    "hint": "Escribe un libro, un capítulo y un versículo.",
+    "noMatch": "Ningún libro coincide."
   }
 }
