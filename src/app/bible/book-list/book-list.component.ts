@@ -77,7 +77,7 @@ import type { BookInfo } from '../../models/bible.model';
     .retry-btn {
       padding: 9px 22px;
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-radius: var(--radius-md);
       font-size: 13px;
       font-weight: 600;

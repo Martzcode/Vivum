@@ -125,7 +125,7 @@ import { ExternalService } from '../services/external.service';
 
     .about-link:hover {
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-color: var(--accent);
       text-decoration: none;
     }

@@ -52,14 +52,14 @@ import type { ContextMenuItem } from './context-menu.model';
                 @switch (item.icon) {
                   @case ('copy') {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      <rect x="8" y="8" width="14" height="14" rx="2"/>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
                     </svg>
                   }
                   @case ('reference') {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                      <path d="M12 7v14"/>
+            <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
                     </svg>
                   }
                   @case ('heart') {
@@ -75,21 +75,22 @@ import type { ContextMenuItem } from './context-menu.model';
                   @case ('search') {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <circle cx="11" cy="11" r="8" />
-                      <path d="M21 21l-4.35-4.35" />
+                      <path d="m21 21-4.3-4.3"/>
                     </svg>
                   }
                   @case ('open') {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
+                      <path d="M15 3h6v6"/>
+                      <path d="M10 14 21 3"/>
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                     </svg>
                   }
                   @case ('trash') {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3 6 5 6 21 6" />
-                      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-                      <path d="M10 11v6M14 11v6" />
+                      <path d="M3 6h18"/>
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                      <path d="M10 11v6M14 11v6"/>
                     </svg>
                   }
                 }
@@ -159,12 +160,12 @@ import type { ContextMenuItem } from './context-menu.model';
     }
 
     .context-item.danger {
-      color: #a33;
+      color: var(--danger);
     }
 
     .context-item.danger:hover:not(:disabled),
     .context-item.danger:focus-visible {
-      background: color-mix(in srgb, #a33 12%, transparent);
+      background: color-mix(in srgb, var(--danger) 12%, transparent);
     }
 
     .context-icon {

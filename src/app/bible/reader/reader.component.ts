@@ -86,8 +86,8 @@ type ReaderState =
                     [title]="'bible.copyVerse' | t"
                     (click)="copyVerse(verse.verse, verse.text)">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      <rect x="8" y="8" width="14" height="14" rx="2"/>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
                     </svg>
                   </button>
                   <button
@@ -167,7 +167,7 @@ type ReaderState =
     .retry-btn {
       padding: 10px 24px;
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-radius: var(--radius-md);
       font-size: 14px;
       font-weight: 600;
@@ -209,7 +209,7 @@ type ReaderState =
 
     .nav-arrow:hover:not(.disabled) {
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       text-decoration: none;
     }
 
@@ -316,7 +316,7 @@ type ReaderState =
     .verse-action svg { width: 14px; height: 14px; }
 
     .verse-action:hover { background: var(--bg-hover); color: var(--text-primary); }
-    .verse-action.is-fav { color: #e25555; }
+    .verse-action.is-fav { color: var(--danger); }
 
     .copied {
       font-size: 11px;
@@ -349,7 +349,7 @@ type ReaderState =
 
     .next-chapter-btn:hover {
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-color: var(--accent);
       text-decoration: none;
     }

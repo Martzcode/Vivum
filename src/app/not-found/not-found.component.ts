@@ -49,7 +49,7 @@ import { TranslatePipe } from '../pipes/translate.pipe';
       display: inline-block;
       padding: 10px 24px;
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-radius: var(--radius-md);
       font-size: 14px;
       font-weight: 600;

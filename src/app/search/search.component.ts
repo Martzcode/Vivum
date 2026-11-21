@@ -29,7 +29,7 @@ type SearchRow = SearchResult & { id: string };
       <div class="search-box">
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="11" cy="11" r="8"/>
-          <path d="M21 21l-4.35-4.35"/>
+          <path d="m21 21-4.3-4.3"/>
         </svg>
         <input
           type="search"
@@ -113,7 +113,7 @@ type SearchRow = SearchResult & { id: string };
     .retry-btn {
       padding: 9px 22px;
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-radius: var(--radius-md);
       font-size: 13px;
       font-weight: 600;
