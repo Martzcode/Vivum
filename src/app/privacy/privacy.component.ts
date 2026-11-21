@@ -179,7 +179,7 @@ import { ProgressService } from '../services/progress.service';
       padding: 8px 16px;
       font-size: 12px;
       font-weight: 600;
-      color: #a33;
+      color: var(--danger);
       background: var(--bg-secondary);
       border: 1px solid var(--border-light);
       border-radius: var(--radius-sm);
@@ -189,9 +189,9 @@ import { ProgressService } from '../services/progress.service';
     .clear-btn:hover { background: var(--bg-hover); }
 
     .clear-btn.confirming {
-      color: #fff;
-      background: #a33;
-      border-color: #a33;
+      color: var(--on-accent);
+      background: var(--danger);
+      border-color: var(--danger);
     }
 
     .cancel-btn {

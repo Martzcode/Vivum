@@ -76,7 +76,7 @@ type ChapterListState =
       padding: 9px 22px;
       margin-bottom: 16px;
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-radius: var(--radius-md);
       font-size: 13px;
       font-weight: 600;
@@ -129,7 +129,7 @@ type ChapterListState =
     .chapter-card:hover {
       border-color: var(--accent);
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       text-decoration: none;
     }
   `],

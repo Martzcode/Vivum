@@ -74,8 +74,8 @@ import { VERSION_LABELS } from '../models/bible.model';
                 (click)="remove(fav)"
                 [attr.aria-label]="'bible.removeFavorite' | t">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
+                  <path d="M18 6 6 18"/>
+                  <path d="m6 6 12 12"/>
                 </svg>
               </button>
             </div>
@@ -154,7 +154,7 @@ import { VERSION_LABELS } from '../models/bible.model';
       margin-top: 20px;
       padding: 9px 22px;
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-radius: var(--radius-md);
       font-size: 13px;
       font-weight: 600;
@@ -228,7 +228,7 @@ import { VERSION_LABELS } from '../models/bible.model';
     .fav-card:hover .fav-remove,
     .fav-card:focus-within .fav-remove { opacity: 1; }
     .fav-remove svg { width: 14px; height: 14px; }
-    .fav-remove:hover { background: var(--bg-hover); color: #e25555; }
+    .fav-remove:hover { background: var(--bg-hover); color: var(--danger); }
   `],
 })
 export class FavoritesComponent {

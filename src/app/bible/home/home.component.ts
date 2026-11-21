@@ -16,11 +16,8 @@ import type { ReadingPosition } from '../../models/bible.model';
     <div class="home">
       <div class="home-hero">
         <svg class="home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-          <path d="M8 7h8"/>
-          <path d="M8 11h8"/>
-          <path d="M8 15h5"/>
+          <path d="M12 7v14"/>
+            <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
         </svg>
         <h1>{{ 'home.welcome' | t }}</h1>
         <p class="home-subtitle">{{ 'home.subtitle' | t }}</p>
@@ -107,7 +104,7 @@ import type { ReadingPosition } from '../../models/bible.model';
       display: inline-block;
       padding: 10px 26px;
       background: var(--accent);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       border-radius: var(--radius-md);
       font-size: 14px;
       font-weight: 600;

@@ -73,8 +73,8 @@ import { ClipboardService } from '../../services/clipboard.service';
                     </svg>
                   } @else {
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                      <rect x="8" y="8" width="14" height="14" rx="2"/>
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
                     </svg>
                   }
                 </button>
@@ -87,8 +87,8 @@ import { ClipboardService } from '../../services/clipboard.service';
                   [fragment]="'v' + passage.startVerse"
                   [attr.aria-label]="'dailyVerse.read' | t">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                    <path d="M12 7v14"/>
+                    <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
                   </svg>
                 </a>
               </span>
@@ -225,7 +225,7 @@ import { ClipboardService } from '../../services/clipboard.service';
       padding: 4px 8px;
       border-radius: var(--radius-sm);
       background: var(--text-primary);
-      color: var(--bg-primary);
+      color: var(--on-accent);
       font-size: 11px;
       font-weight: 500;
       line-height: 1.2;
@@ -271,13 +271,13 @@ import { ClipboardService } from '../../services/clipboard.service';
     }
 
     .daily-icon-btn-primary {
-      color: var(--bg-primary);
+      color: var(--on-accent);
       background: var(--accent);
       border-color: var(--accent);
     }
 
     .daily-icon-btn-primary:hover {
-      color: var(--bg-primary);
+      color: var(--on-accent);
       background: var(--accent-hover);
       border-color: var(--accent-hover);
     }
