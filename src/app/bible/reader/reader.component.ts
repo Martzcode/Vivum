@@ -4,6 +4,7 @@ import {
   DestroyRef,
   ElementRef,
   computed,
+  HostListener,
   effect,
   inject,
   signal,
@@ -14,13 +15,15 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TranslateService } from '../../services/translate.service';
 import { BibleService } from '../../services/bible.service';
+import { AnnotationsService } from '../../services/annotations.service';
+import { ShareCardService } from '../../services/share-card.service';
 import { ClipboardService } from '../../services/clipboard.service';
 import { ContextMenuService } from '../../services/context-menu.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { ProgressService } from '../../services/progress.service';
 import type { ContextMenuItem } from '../../components/context-menu';
-import type { BookInfo, Chapter, SupportedLocale } from '../../models/bible.model';
-import { VERSION_MAP, favoriteId } from '../../models/bible.model';
+import type { Annotation, BookInfo, Chapter, HighlightColor, SupportedLocale } from '../../models/bible.model';
+import { HIGHLIGHT_COLORS, VERSION_LABELS, VERSION_MAP, favoriteId } from '../../models/bible.model';
 import { toSearchQuery } from '../../utils/query';
 
 type ReaderState =
@@ -75,10 +78,48 @@ type ReaderState =
                 [id]="'v' + verse.verse"
                 [attr.data-verse]="verse.verse"
                 [class.is-target]="targetVerse() === verse.verse"
-                [class.is-copied]="copiedVerse() === verse.verse">
+                [class.is-copied]="copiedVerse() === verse.verse"
+                [class.is-open]="paletteVerse() === verse.verse || noteVerse() === verse.verse"
+                [attr.data-hl]="colorOf(verse.verse)">
                 <span class="verse-num">{{ verse.verse }}</span>
                 <span class="verse-text">{{ verse.text }}</span>
                 <div class="verse-actions">
+                  <button
+                    type="button"
+                    class="verse-action"
+                    [class.is-active]="!!colorOf(verse.verse)"
+                    [attr.aria-label]="'bible.highlight' | t"
+                    [title]="'bible.highlight' | t"
+                    (click)="togglePalette(verse.verse)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="m9 11-6 6v3h9l3-3"/>
+                      <path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/>
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    class="verse-action"
+                    [class.is-active]="!!noteOf(verse.verse)"
+                    [attr.aria-label]="(noteOf(verse.verse) ? 'bible.editNote' : 'bible.addNote') | t"
+                    [title]="(noteOf(verse.verse) ? 'bible.editNote' : 'bible.addNote') | t"
+                    (click)="openNote(verse.verse)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M12 20h9"/>
+                      <path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/>
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    class="verse-action"
+                    [attr.aria-label]="'bible.createImage' | t"
+                    [title]="'bible.createImage' | t"
+                    (click)="shareVerse(verse.verse, verse.text)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <rect x="3" y="3" width="18" height="18" rx="2"/>
+                      <circle cx="9" cy="9" r="2"/>
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                    </svg>
+                  </button>
                   <button
                     type="button"
                     class="verse-action"
@@ -112,6 +153,58 @@ type ReaderState =
                     <span class="copied" role="status">{{ 'bible.copied' | t }}</span>
                   }
                 </div>
+
+                @if (paletteVerse() === verse.verse) {
+                  <div class="verse-extra palette" role="group" [attr.aria-label]="'bible.highlight' | t">
+                    @for (color of colors; track color) {
+                      <button
+                        type="button"
+                        class="swatch"
+                        [attr.data-color]="color"
+                        [class.active]="colorOf(verse.verse) === color"
+                        [attr.aria-label]="'bible.colors.' + color | t"
+                        [title]="'bible.colors.' + color | t"
+                        (click)="setColor(verse.verse, color)"></button>
+                    }
+                    @if (colorOf(verse.verse)) {
+                      <button type="button" class="palette-clear" (click)="setColor(verse.verse, null)">
+                        {{ 'bible.removeHighlight' | t }}
+                      </button>
+                    }
+                  </div>
+                }
+
+                @if (noteVerse() === verse.verse) {
+                  <div class="verse-extra note-editor">
+                    <textarea
+                      rows="3"
+                      maxlength="2000"
+                      [placeholder]="'note.placeholder' | t"
+                      [attr.aria-label]="'bible.addNote' | t"
+                      [value]="noteDraft()"
+                      (input)="noteDraft.set($any($event.target).value)"
+                      (keydown.control.enter)="saveNote(verse.verse)"
+                      (keydown.escape)="cancelNote($event)"></textarea>
+                    <div class="note-actions">
+                      @if (noteOf(verse.verse)) {
+                        <button type="button" class="note-btn danger" (click)="deleteNote(verse.verse)">
+                          {{ 'note.delete' | t }}
+                        </button>
+                      }
+                      <span class="spacer"></span>
+                      <button type="button" class="note-btn" (click)="cancelNote()">{{ 'note.cancel' | t }}</button>
+                      <button type="button" class="note-btn primary" (click)="saveNote(verse.verse)">{{ 'note.save' | t }}</button>
+                    </div>
+                  </div>
+                } @else if (noteOf(verse.verse); as note) {
+                  <button type="button" class="verse-extra note-view" (click)="openNote(verse.verse)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M12 20h9"/>
+                      <path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/>
+                    </svg>
+                    <span>{{ note }}</span>
+                  </button>
+                }
               </div>
             }
           </div>
@@ -255,9 +348,10 @@ type ReaderState =
 
     .verse {
       display: flex;
+      flex-wrap: wrap;
       align-items: flex-start;
       gap: 8px;
-      padding: 6px 0;
+      padding: 6px 6px 6px 0;
       border-radius: var(--radius-sm);
       transition: background-color 0.15s ease;
       scroll-margin-top: 24px;
@@ -269,6 +363,103 @@ type ReaderState =
       background: color-mix(in srgb, var(--accent) 18%, transparent);
       box-shadow: 0 0 0 1px var(--accent);
     }
+
+    .verse[data-hl='yellow'] { background: color-mix(in srgb, var(--hl-yellow) 28%, transparent); }
+    .verse[data-hl='green'] { background: color-mix(in srgb, var(--hl-green) 28%, transparent); }
+    .verse[data-hl='blue'] { background: color-mix(in srgb, var(--hl-blue) 26%, transparent); }
+    .verse[data-hl='pink'] { background: color-mix(in srgb, var(--hl-pink) 26%, transparent); }
+
+    .verse-extra {
+      flex: 0 0 100%;
+      padding-left: 28px;
+    }
+
+    .palette {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 4px;
+    }
+
+    .swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+    }
+
+    .swatch[data-color='yellow'] { background: var(--hl-yellow); }
+    .swatch[data-color='green'] { background: var(--hl-green); }
+    .swatch[data-color='blue'] { background: var(--hl-blue); }
+    .swatch[data-color='pink'] { background: var(--hl-pink); }
+    .swatch.active { border-color: var(--text-primary); }
+
+    .palette-clear {
+      margin-left: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .palette-clear:hover { color: var(--text-primary); text-decoration: underline; }
+
+    .note-editor textarea {
+      width: 100%;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      resize: vertical;
+    }
+
+    .note-editor textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
+    }
+
+    .note-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0 4px;
+    }
+
+    .spacer { flex: 1; }
+
+    .note-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+    }
+
+    .note-btn:hover { background: var(--bg-hover); }
+    .note-btn.primary { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
+    .note-btn.primary:hover { background: var(--accent-hover); }
+    .note-btn.danger { color: var(--danger); }
+
+    .note-view {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      text-align: left;
+      padding-top: 0;
+      padding-bottom: 4px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      white-space: pre-wrap;
+    }
+
+    .note-view svg { width: 13px; height: 13px; flex: 0 0 auto; margin-top: 3px; color: var(--accent); }
+    .note-view:hover { color: var(--text-primary); }
 
     .verse-num {
       flex-shrink: 0;
@@ -297,7 +488,8 @@ type ReaderState =
 
     .verse:hover .verse-actions,
     .verse:focus-within .verse-actions,
-    .verse.is-copied .verse-actions { opacity: 1; }
+    .verse.is-copied .verse-actions,
+    .verse.is-open .verse-actions { opacity: 1; }
 
     .verse-action {
       display: flex;
@@ -317,6 +509,7 @@ type ReaderState =
 
     .verse-action:hover { background: var(--bg-hover); color: var(--text-primary); }
     .verse-action.is-fav { color: var(--danger); }
+    .verse-action.is-active { color: var(--accent); }
 
     .copied {
       font-size: 11px;
@@ -362,6 +555,8 @@ export class ReaderComponent {
   private readonly translate = inject(TranslateService);
   private readonly favorites = inject(FavoritesService);
   private readonly progress = inject(ProgressService);
+  private readonly annotations = inject(AnnotationsService);
+  private readonly shareCard = inject(ShareCardService);
   private readonly clipboard = inject(ClipboardService);
   private readonly contextMenu = inject(ContextMenuService);
   private readonly destroyRef = inject(DestroyRef);
@@ -374,6 +569,10 @@ export class ReaderComponent {
   readonly state = signal<ReaderState>({ status: 'loading' });
   readonly targetVerse = signal<number | null>(null);
   readonly copiedVerse = signal<number | null>(null);
+  readonly paletteVerse = signal<number | null>(null);
+  readonly noteVerse = signal<number | null>(null);
+  readonly noteDraft = signal('');
+  readonly colors = HIGHLIGHT_COLORS;
 
   readonly ready = computed(() => {
     const state = this.state();
@@ -476,6 +675,112 @@ export class ReaderComponent {
     return verses;
   });
 
+  /** Annotations du chapitre affiché, indexées par numéro de verset. */
+  readonly chapterAnnotations = computed(() => {
+    const chapter = this.chapter();
+    const map = new Map<number, Annotation>();
+    if (!chapter) return map;
+
+    const byId = this.annotations.byId();
+    const version = this.version();
+    const bookId = this.bookId();
+    for (const verse of chapter.verses) {
+      const item = byId.get(favoriteId(version, bookId, chapter.chapter, verse.verse));
+      if (item) map.set(verse.verse, item);
+    }
+    return map;
+  });
+
+  colorOf(verse: number): HighlightColor | null {
+    return this.chapterAnnotations().get(verse)?.color ?? null;
+  }
+
+  noteOf(verse: number): string {
+    return this.chapterAnnotations().get(verse)?.note ?? '';
+  }
+
+  togglePalette(verse: number): void {
+    this.noteVerse.set(null);
+    this.paletteVerse.update(current => (current === verse ? null : verse));
+  }
+
+  setColor(verse: number, color: HighlightColor | null): void {
+    const ref = this.verseRef(verse);
+    if (!ref) return;
+    this.annotations.setColor(ref, color);
+    this.paletteVerse.set(null);
+  }
+
+  openNote(verse: number): void {
+    this.paletteVerse.set(null);
+    this.noteDraft.set(this.noteOf(verse));
+    this.noteVerse.set(verse);
+    setTimeout(
+      () =>
+        this.content()
+          ?.nativeElement.querySelector<HTMLTextAreaElement>('.note-editor textarea')
+          ?.focus(),
+      0,
+    );
+  }
+
+  saveNote(verse: number): void {
+    const ref = this.verseRef(verse);
+    if (ref) this.annotations.setNote(ref, this.noteDraft());
+    this.noteVerse.set(null);
+  }
+
+  deleteNote(verse: number): void {
+    const ref = this.verseRef(verse);
+    if (ref) this.annotations.setNote(ref, '');
+    this.noteVerse.set(null);
+  }
+
+  cancelNote(event?: Event): void {
+    event?.stopPropagation();
+    this.noteVerse.set(null);
+  }
+
+  shareVerse(verse: number, text: string): void {
+    const data = this.ready();
+    if (!data) return;
+    this.shareCard.open({
+      text,
+      reference: `${this.bookName()} ${data.chapter.chapter}:${verse}`,
+      versionLabel: VERSION_LABELS[this.version()],
+    });
+  }
+
+  /** Flèches gauche/droite : chapitre précédent ou suivant. */
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void {
+    if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+      return;
+    }
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+    const target = event.target;
+    if (
+      target instanceof HTMLElement &&
+      target.closest('input, textarea, select, [contenteditable="true"]')
+    ) {
+      return;
+    }
+    if (document.querySelector('[role="dialog"]')) return;
+
+    const chapter = event.key === 'ArrowLeft' ? this.prevChapter() : this.nextChapter();
+    if (chapter === null) return;
+
+    event.preventDefault();
+    void this.router.navigate(['/bible', this.bookId(), chapter]);
+  }
+
+  private verseRef(verse: number) {
+    const chapter = this.chapter();
+    if (!chapter) return null;
+    return { version: this.version(), bookId: this.bookId(), chapter: chapter.chapter, verse };
+  }
+
   toggleFavorite(verse: number, text: string): void {
     const chapter = this.chapter();
     const book = this.book();
@@ -548,6 +853,17 @@ export class ReaderComponent {
       action: () => this.toggleFavorite(verse.verse, verse.text),
     });
 
+    items.push({
+      label: this.translate.t('context.addNote'),
+      icon: 'note',
+      action: () => this.openNote(verse.verse),
+    });
+    items.push({
+      label: this.translate.t('context.createImage'),
+      icon: 'image',
+      action: () => this.shareVerse(verse.verse, verse.text),
+    });
+
     items.push({ separator: true });
     items.push({
       label: this.translate.t('context.searchVerse'),
@@ -583,6 +899,8 @@ export class ReaderComponent {
     this.controller = controller;
 
     this.state.set({ status: 'loading' });
+    this.paletteVerse.set(null);
+    this.noteVerse.set(null);
 
     try {
       const books = await this.bible.getBooks();

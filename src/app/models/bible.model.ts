@@ -88,6 +88,25 @@ export function favoriteId(
   return `${version}:${bookId}:${chapter}:${verse}`;
 }
 
+export const HIGHLIGHT_COLORS = ['yellow', 'green', 'blue', 'pink'] as const;
+export type HighlightColor = (typeof HIGHLIGHT_COLORS)[number];
+
+/** Surlignage et/ou note personnelle attachés à un verset. */
+export interface Annotation {
+  id: string;
+  version: BibleVersion;
+  bookId: string;
+  chapter: number;
+  verse: number;
+  color?: HighlightColor;
+  note?: string;
+  updatedAt: number;
+}
+
+export function isHighlightColor(value: unknown): value is HighlightColor {
+  return typeof value === 'string' && (HIGHLIGHT_COLORS as readonly string[]).includes(value);
+}
+
 /** Convertit une valeur stockée (version ou ancienne locale) en version connue. */
 export function toBibleVersion(value: unknown): BibleVersion | null {
   if (typeof value !== 'string') return null;

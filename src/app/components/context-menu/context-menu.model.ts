@@ -6,7 +6,10 @@ export type ContextMenuIcon =
   | 'heart-filled'
   | 'search'
   | 'open'
-  | 'trash';
+  | 'trash'
+  | 'image'
+  | 'note'
+  | 'highlight';
 
 /** Entrée d'un menu contextuel. Une entrée `separator` n'a pas d'action. */
 export interface ContextMenuItem {

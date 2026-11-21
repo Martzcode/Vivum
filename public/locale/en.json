@@ -56,7 +56,18 @@
     "loadError": "Unable to load the biblical text.",
     "bookNotFound": "This book could not be found.",
     "chapterNotFound": "This chapter does not exist.",
-    "nextChapter": "Next chapter"
+    "nextChapter": "Next chapter",
+    "highlight": "Highlight",
+    "removeHighlight": "Remove highlight",
+    "addNote": "Add a note",
+    "editNote": "Edit note",
+    "createImage": "Create an image",
+    "colors": {
+      "yellow": "Yellow",
+      "green": "Green",
+      "blue": "Blue",
+      "pink": "Pink"
+    }
   },
   "context": {
     "copyVerse": "Copy verse",
@@ -65,7 +76,9 @@
     "searchVerse": "Search this verse",
     "searchSelection": "Search the Bible",
     "openVerse": "Open verse",
-    "copied": "Copied!"
+    "copied": "Copied!",
+    "addNote": "Add a note",
+    "createImage": "Create an image"
   },
   "favorites": {
     "title": "My Favorites",
@@ -155,5 +168,38 @@
     "title": "Page not found",
     "text": "The requested address does not exist in Vivum.",
     "back": "Back to home"
+  },
+  "note": {
+    "placeholder": "Your personal note…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "share": {
+    "title": "Verse image",
+    "theme": "Theme",
+    "format": "Format",
+    "themes": {
+      "cream": "Cream",
+      "sage": "Sage",
+      "night": "Night"
+    },
+    "formats": {
+      "square": "Square",
+      "portrait": "Portrait"
+    },
+    "save": "Save",
+    "copy": "Copy",
+    "saved": "Image saved.",
+    "copied": "Image copied.",
+    "error": "The operation failed.",
+    "close": "Close"
+  },
+  "jump": {
+    "open": "Go to…",
+    "title": "Go to a reference",
+    "placeholder": "John 3:16, Psalms 23, 1 Cor 13…",
+    "hint": "Type a book, a chapter and a verse.",
+    "noMatch": "No matching book."
   }
 }
