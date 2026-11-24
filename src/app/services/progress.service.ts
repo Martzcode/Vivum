@@ -72,6 +72,16 @@ export class ProgressService {
     writeJson(RECENT_KEY, this._recent());
   }
 
+  /** Vide l'historique récent sans toucher à la position de lecture courante. */
+  clearRecent(): void {
+    this._recent.set([]);
+    try {
+      localStorage.removeItem(RECENT_KEY);
+    } catch (error) {
+      console.error('Unable to clear recent readings', error);
+    }
+  }
+
   clear(): void {
     this._current.set(null);
     this._recent.set([]);

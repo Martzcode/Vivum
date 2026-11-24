@@ -22,6 +22,11 @@ export const routes: Routes = [
       import('./bible/reader/reader.component').then(m => m.ReaderComponent),
   },
   {
+    path: 'plans',
+    loadComponent: () =>
+      import('./plans/plans.component').then(m => m.PlansComponent),
+  },
+  {
     path: 'search',
     loadComponent: () =>
       import('./search/search.component').then(m => m.SearchComponent),

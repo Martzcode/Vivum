@@ -21,6 +21,7 @@ import { ClipboardService } from '../../services/clipboard.service';
 import { ContextMenuService } from '../../services/context-menu.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { ProgressService } from '../../services/progress.service';
+import { PlanService } from '../../services/plan.service';
 import type { ContextMenuItem } from '../../components/context-menu';
 import type { Annotation, BookInfo, Chapter, HighlightColor, SupportedLocale } from '../../models/bible.model';
 import { HIGHLIGHT_COLORS, VERSION_LABELS, VERSION_MAP, favoriteId } from '../../models/bible.model';
@@ -211,6 +212,23 @@ type ReaderState =
         </div>
 
         <div class="reader-footer">
+          @if (inPlan()) {
+            <div class="plan-row">
+              <button
+                type="button"
+                class="plan-btn"
+                [class.is-read]="planRead()"
+                [attr.aria-pressed]="planRead()"
+                (click)="togglePlanRead()">
+                {{ (planRead() ? 'plans.read' : 'plans.markRead') | t }}
+              </button>
+              @if (planNext(); as target) {
+                <a class="plan-btn" [routerLink]="['/bible', target.bookId, target.chapter]">
+                  {{ 'plans.nextInPlan' | t }} →
+                </a>
+              }
+            </div>
+          }
           @if (nextChapter(); as next) {
             <a class="next-chapter-btn" [routerLink]="['/bible', data.book.id, next]">
               {{ 'bible.nextChapter' | t }} →
@@ -527,6 +545,37 @@ type ReaderState =
       text-align: center;
     }
 
+    .plan-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .plan-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font: inherit;
+      font-size: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .plan-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .is-read {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--on-accent);
+    }
+
     .next-chapter-btn {
       display: inline-block;
       padding: 10px 24px;
@@ -555,6 +604,7 @@ export class ReaderComponent {
   private readonly translate = inject(TranslateService);
   private readonly favorites = inject(FavoritesService);
   private readonly progress = inject(ProgressService);
+  private readonly plans = inject(PlanService);
   private readonly annotations = inject(AnnotationsService);
   private readonly shareCard = inject(ShareCardService);
   private readonly clipboard = inject(ClipboardService);
@@ -596,6 +646,30 @@ export class ReaderComponent {
     return state.status === 'error' ? state.messageKey : '';
   });
 
+  /** Chapitre courant sous forme de référence de plan (indépendante de la version). */
+  private readonly planRef = computed(() => {
+    const chapter = this.chapter();
+    return chapter ? { bookId: chapter.bookId, chapter: chapter.chapter } : null;
+  });
+
+  readonly inPlan = computed(() => {
+    const ref = this.planRef();
+    return !!ref && this.plans.isInActivePlan(ref);
+  });
+
+  readonly planRead = computed(() => {
+    const ref = this.planRef();
+    return !!ref && this.plans.isRead(ref);
+  });
+
+  /** Prochaine lecture du plan, hors chapitre en cours. */
+  readonly planNext = computed(() => {
+    const next = this.plans.active()?.next;
+    const ref = this.planRef();
+    if (!next || (ref && next.bookId === ref.bookId && next.chapter === ref.chapter)) return null;
+    return next;
+  });
+
   readonly prevChapter = computed(() => {
     const chapter = this.chapter();
     return chapter && chapter.chapter > 1 ? chapter.chapter - 1 : null;
@@ -612,6 +686,7 @@ export class ReaderComponent {
   private controller?: AbortController;
   private targetTimer?: ReturnType<typeof setTimeout>;
   private scrollTimer?: ReturnType<typeof setTimeout>;
+  private planTimer?: ReturnType<typeof setTimeout>;
   private copiedTimer?: ReturnType<typeof setTimeout>;
 
   constructor() {
@@ -641,6 +716,7 @@ export class ReaderComponent {
       this.controller?.abort();
       clearTimeout(this.targetTimer);
       clearTimeout(this.scrollTimer);
+      clearTimeout(this.planTimer);
       clearTimeout(this.copiedTimer);
     });
 
@@ -938,6 +1014,12 @@ export class ReaderComponent {
       });
 
       if (!this.fragment()) this.scrollToTop();
+      // Un chapitre sans défilement est lu en entier : on vérifie sans attendre un scroll.
+      clearTimeout(this.planTimer);
+      this.planTimer = setTimeout(() => {
+        const container = this.content()?.nativeElement;
+        if (container) this.markPlanIfFinished(container);
+      }, 600);
     } catch (error) {
       if (token !== this.loadToken || isAbortError(error)) return;
       this.state.set({ status: 'error', messageKey: 'bible.loadError' });
@@ -975,6 +1057,26 @@ export class ReaderComponent {
     }
 
     this.progress.updateVerse(current);
+    this.markPlanIfFinished(container);
+  }
+
+  togglePlanRead(): void {
+    const ref = this.planRef();
+    if (!ref) return;
+    if (this.plans.isRead(ref)) this.plans.unmarkChapter(ref);
+    else this.plans.markChapter(ref);
+  }
+
+  /**
+   * Coche le chapitre dans le plan actif quand on atteint la fin du texte.
+   * Un chapitre court qui tient à l'écran compte comme lu dès l'ouverture.
+   */
+  private markPlanIfFinished(container: HTMLElement): void {
+    const ref = this.planRef();
+    if (!ref || !this.plans.isInActivePlan(ref) || this.plans.isRead(ref)) return;
+
+    const atEnd = container.scrollTop + container.clientHeight >= container.scrollHeight - 80;
+    if (atEnd) this.plans.markChapter(ref);
   }
 }
 

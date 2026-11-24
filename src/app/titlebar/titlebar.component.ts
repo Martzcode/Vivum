@@ -12,8 +12,7 @@ import { QuickJumpService } from '../services/quick-jump.service';
   template: `
     <header class="titlebar" (mousedown)="startDrag($event)" (dblclick)="onHeaderDblClick($event)">
       <div class="titlebar-brand">
-        <img class="titlebar-logo" src="/logo.png" alt="" width="22" height="22">
-        <span class="titlebar-title">{{ 'app.title' | t }}</span>
+        <img class="titlebar-logo" src="/logo.png" [alt]="'app.title' | t" width="22" height="22">
       </div>
 
       <nav class="titlebar-nav">
@@ -30,6 +29,16 @@ import { QuickJumpService } from '../services/quick-jump.service';
             <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>
           </svg>
           <span>{{ 'nav.bible' | t }}</span>
+        </a>
+        <a class="nav-btn" routerLink="/plans" routerLinkActive="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 2v4"/>
+            <path d="M16 2v4"/>
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M3 10h18"/>
+            <path d="m9 16 2 2 4-4"/>
+          </svg>
+          <span>{{ 'nav.plans' | t }}</span>
         </a>
         <a class="nav-btn" routerLink="/favorites" routerLinkActive="active">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

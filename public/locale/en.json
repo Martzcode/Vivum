@@ -40,7 +40,8 @@
     "search": "Search",
     "favorites": "Favorites",
     "about": "About",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "plans": "Plans"
   },
   "bible": {
     "oldTestament": "Old Testament",
@@ -96,6 +97,7 @@
     "continue": "Continue Reading",
     "startReading": "Start Reading",
     "recentlyRead": "Recently read",
+    "clearRecent": "Clear the recently read list",
     "lastFavorite": "Last favorite"
   },
   "dailyVerse": {
@@ -142,7 +144,7 @@
     "s3Title": "3. Data stored on your device",
     "s3Text": "Your preferences stay exclusively on your device, in the app's local storage:",
     "s3Item1": "Favorite verses (reference, text, and date added).",
-    "s3Item2": "Chosen display language, last reading position and recent reading history.",
+    "s3Item2": "Chosen display language, last reading position, recent reading history and reading plan progress.",
     "s3Item3": "This data never leaves your device unless you export it yourself. It is deleted if you clear the app data or uninstall the app.",
     "s4Title": "4. Tracking, cookies, and ads",
     "s4Text": "Vivum includes no trackers, no third-party cookies, no analytics tools, and no advertising. No advertising identifiers or audience measurement are used.",
@@ -201,5 +203,64 @@
     "placeholder": "John 3:16, Psalms 23, 1 Cor 13…",
     "hint": "Type a book, a chapter and a verse.",
     "noMatch": "No matching book."
+  },
+  "plans": {
+    "title": "Reading plans",
+    "choose": "Choose a plan",
+    "current": "Active",
+    "progress": "{percent}% · {done}/{total} days completed",
+    "progressShort": "{percent}% read",
+    "dayOf": "Day {n} of {total}",
+    "day": "Day {n}",
+    "length": "{days} days · {chapters} chapters",
+    "todayReading": "Today’s reading",
+    "completed": "Plan completed, well done!",
+    "start": "Start",
+    "resume": "Resume",
+    "stop": "Set aside",
+    "reset": "Reset",
+    "confirmReset": "Confirm erase?",
+    "showDays": "Show all days",
+    "toggleDay": "Mark day {n} as read",
+    "markRead": "Mark as read",
+    "read": "Read ✓",
+    "nextInPlan": "Next reading in the plan",
+    "invite": "Follow a reading plan",
+    "custom": {
+      "title": "Custom plan",
+      "description": "Pick a book and the number of days to read it.",
+      "book": "Book",
+      "days": "Number of days",
+      "create": "Create and start",
+      "error": "This plan could not be created.",
+      "name": "Custom plan: {book}",
+      "summary": "One book spread over {days} days."
+    },
+    "catalog": {
+      "bible-1-year": {
+        "title": "The Bible in 1 year",
+        "description": "The whole Bible, from Genesis to Revelation, in book order."
+      },
+      "ot-nt-1-year": {
+        "title": "Old and New Testament in 1 year",
+        "description": "Every day, one passage from the Old and one from the New Testament."
+      },
+      "nt-90": {
+        "title": "New Testament in 90 days",
+        "description": "About three chapters a day, from Matthew to Revelation."
+      },
+      "gospels-30": {
+        "title": "The Gospels in 30 days",
+        "description": "Matthew, Mark, Luke and John: the life of Jesus in a month."
+      },
+      "epistles-40": {
+        "title": "The Epistles in 40 days",
+        "description": "From Romans to Jude: the letters to the early churches."
+      },
+      "psalms-proverbs-31": {
+        "title": "Psalms and Proverbs in 31 days",
+        "description": "One proverb and five psalms a day: all 150 psalms every month."
+      }
+    }
   }
 }
