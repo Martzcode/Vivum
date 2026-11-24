@@ -109,6 +109,16 @@ for (const book of ALL_BOOKS) {
   }
 }
 
+/**
+ * Nettoie le texte d'un verset. Dans la KJV, les mots ajoutés par les
+ * traducteurs (italiques à l'impression) sont entre crochets : on retire
+ * les crochets et on garde les mots.
+ */
+function cleanText(text, versionKey) {
+  if (versionKey !== 'kjv') return text;
+  return text.replace(/[[]]/g, '').replace(/ {2,}/g, ' ').trim();
+}
+
 function processData(verses, versionKey) {
   // Group verses by book+chapter
   const grouped = new Map();
@@ -135,7 +145,7 @@ function processData(verses, versionKey) {
 
     grouped.get(key).verses.push({
       verse: v.verse,
-      text: v.text,
+      text: cleanText(v.text, versionKey),
     });
   }
 
