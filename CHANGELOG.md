@@ -5,6 +5,15 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+### Added
+- **Plans de lecture** (page `/plans`, lien « Plans » dans la barre de titre) : 7 plans, dont 6 prédéfinis (Bible en 1 an, Ancien et Nouveau Testament en 1 an, Nouveau Testament en 90 jours, Évangiles en 30 jours, épîtres en 40 jours, Psaumes et Proverbes en 31 jours) et un plan personnalisé (un livre réparti sur le nombre de jours choisi)
+- Mode « rattrapage » : pas de calendrier ni de retard, le jour courant est le premier jour non terminé
+- Un seul plan actif à la fois ; la progression de chaque plan est conservée quand on change de plan, et peut être réinitialisée plan par plan
+- Cochage automatique d'un chapitre en fin de lecture, case « Marquer comme lu » et lien « Prochaine lecture du plan » dans le lecteur
+- Carte du plan actif sur l'accueil (progression et bouton « Lecture du jour »)
+- Icône de corbeille à droite de « Récemment lus » sur l'accueil : elle vide uniquement la liste, sans toucher à la position de lecture ni aux plans
+- Libellés `plans.*` dans les locales fr, en, es et de ; la progression est stockée localement (`PRIVACY.md` mis à jour)
+
 ## [2026.11.02]
 
 ### Fixed

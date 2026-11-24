@@ -50,6 +50,20 @@ describe('ProgressService', () => {
     expect(service.recent()[0].bookId).toBe('psalms');
   });
 
+  it('clears only the history and keeps the current position', () => {
+    const service = createService();
+    service.save({ version: 'ls1910', bookId: 'john', bookName: 'Jean', chapter: 3 });
+
+    service.clearRecent();
+
+    expect(service.recent()).toEqual([]);
+    expect(service.current()?.chapter).toBe(3);
+
+    const restored = createService();
+    expect(restored.recent()).toEqual([]);
+    expect(restored.current()?.chapter).toBe(3);
+  });
+
   it('clears current position and history', () => {
     const service = createService();
     service.save({ version: 'ls1910', bookId: 'john', bookName: 'Jean', chapter: 3 });

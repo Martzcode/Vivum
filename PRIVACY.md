@@ -26,6 +26,9 @@ local storage (`localStorage`):
 - Favorite verses (reference, version, text, and date added);
 - Chosen display language, last reading position and a short
   recently-read history (used by the "Continue reading" shortcut);
+- Reading plan progress: the active plan, the chapters you marked as
+  read in each plan and, for a custom plan, the chosen book and number
+  of days;
 - These settings and the favorites list can be exported by you at
   any time from the Favorites page. The export is written locally
   and is never uploaded anywhere.

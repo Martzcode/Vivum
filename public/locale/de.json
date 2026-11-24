@@ -40,7 +40,8 @@
     "search": "Suchen",
     "favorites": "Favoriten",
     "about": "Über",
-    "privacy": "Datenschutz"
+    "privacy": "Datenschutz",
+    "plans": "Pläne"
   },
   "bible": {
     "oldTestament": "Altes Testament",
@@ -96,6 +97,7 @@
     "continue": "Weiterlesen",
     "startReading": "Mit dem Lesen beginnen",
     "recentlyRead": "Zuletzt gelesen",
+    "clearRecent": "Liste der zuletzt gelesenen Kapitel leeren",
     "lastFavorite": "Letzter Favorit"
   },
   "dailyVerse": {
@@ -142,7 +144,7 @@
     "s3Title": "3. Auf Ihrem Gerät gespeicherte Daten",
     "s3Text": "Ihre Einstellungen bleiben ausschließlich auf Ihrem Gerät, im lokalen Speicher der App:",
     "s3Item1": "Lieblingsverse (Referenz, Text und Hinzufügedatum).",
-    "s3Item2": "Gewählte Anzeigesprache, letzte Leseposition und aktueller Leseverlauf.",
+    "s3Item2": "Gewählte Anzeigesprache, letzte Leseposition, aktueller Leseverlauf und Fortschritt der Lesepläne.",
     "s3Item3": "Diese Daten verlassen Ihr Gerät nur, wenn Sie sie selbst exportieren. Sie werden gelöscht, wenn Sie die App-Daten löschen oder die App deinstallieren.",
     "s4Title": "4. Tracking, Cookies und Werbung",
     "s4Text": "Vivum enthält keine Tracker, keine Drittanbieter-Cookies, keine Analysetools und keine Werbung. Es werden keine Werbe-IDs oder Reichweitenmessungen verwendet.",
@@ -201,5 +203,64 @@
     "placeholder": "Johannes 3,16, Psalmen 23, 1 Kor 13…",
     "hint": "Gib ein Buch, ein Kapitel und einen Vers ein.",
     "noMatch": "Kein passendes Buch."
+  },
+  "plans": {
+    "title": "Lesepläne",
+    "choose": "Plan auswählen",
+    "current": "Aktiv",
+    "progress": "{percent} % · {done}/{total} Tage abgeschlossen",
+    "progressShort": "{percent} % gelesen",
+    "dayOf": "Tag {n} von {total}",
+    "day": "Tag {n}",
+    "length": "{days} Tage · {chapters} Kapitel",
+    "todayReading": "Lesung des Tages",
+    "completed": "Plan abgeschlossen, gut gemacht!",
+    "start": "Starten",
+    "resume": "Fortsetzen",
+    "stop": "Beiseitelegen",
+    "reset": "Zurücksetzen",
+    "confirmReset": "Löschen bestätigen?",
+    "showDays": "Alle Tage anzeigen",
+    "toggleDay": "Tag {n} als gelesen markieren",
+    "markRead": "Als gelesen markieren",
+    "read": "Gelesen ✓",
+    "nextInPlan": "Nächste Lesung im Plan",
+    "invite": "Einem Leseplan folgen",
+    "custom": {
+      "title": "Eigener Plan",
+      "description": "Wähle ein Buch und die Anzahl der Tage, in denen du es liest.",
+      "book": "Buch",
+      "days": "Anzahl der Tage",
+      "create": "Erstellen und starten",
+      "error": "Dieser Plan konnte nicht erstellt werden.",
+      "name": "Eigener Plan: {book}",
+      "summary": "Ein Buch, verteilt auf {days} Tage."
+    },
+    "catalog": {
+      "bible-1-year": {
+        "title": "Die Bibel in 1 Jahr",
+        "description": "Die ganze Bibel von 1. Mose bis Offenbarung, in der Reihenfolge der Bücher."
+      },
+      "ot-nt-1-year": {
+        "title": "Altes und Neues Testament in 1 Jahr",
+        "description": "Jeden Tag ein Abschnitt aus dem Alten und einer aus dem Neuen Testament."
+      },
+      "nt-90": {
+        "title": "Neues Testament in 90 Tagen",
+        "description": "Etwa drei Kapitel pro Tag, von Matthäus bis Offenbarung."
+      },
+      "gospels-30": {
+        "title": "Die Evangelien in 30 Tagen",
+        "description": "Matthäus, Markus, Lukas und Johannes: das Leben Jesu in einem Monat."
+      },
+      "epistles-40": {
+        "title": "Die Briefe in 40 Tagen",
+        "description": "Vom Römerbrief bis Judas: die Briefe an die ersten Gemeinden."
+      },
+      "psalms-proverbs-31": {
+        "title": "Psalmen und Sprüche in 31 Tagen",
+        "description": "Ein Spruch und fünf Psalmen pro Tag: alle 150 Psalmen jeden Monat."
+      }
+    }
   }
 }
