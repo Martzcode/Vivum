@@ -11,6 +11,8 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 import { TranslateService } from '../../services/translate.service';
 import { DailyVerseService } from '../../services/daily-verse.service';
 import { ClipboardService } from '../../services/clipboard.service';
+import { ShareCardService } from '../../services/share-card.service';
+import { VERSION_LABELS, VERSION_MAP } from '../../models/bible.model';
 
 /**
  * Encart « verset du jour » de l'accueil.
@@ -77,6 +79,20 @@ import { ClipboardService } from '../../services/clipboard.service';
                       <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
                     </svg>
                   }
+                </button>
+              </span>
+
+              <span class="daily-action-wrap" [attr.data-tooltip]="'bible.createImage' | t">
+                <button
+                  type="button"
+                  class="daily-icon-btn"
+                  [attr.aria-label]="'bible.createImage' | t"
+                  (click)="shareImage(passage.text, passage.reference)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="9" cy="9" r="2"/>
+                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                  </svg>
                 </button>
               </span>
 
@@ -287,6 +303,7 @@ export class DailyVerseComponent {
   private readonly daily = inject(DailyVerseService);
   private readonly translate = inject(TranslateService);
   private readonly clipboard = inject(ClipboardService);
+  private readonly shareCard = inject(ShareCardService);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly state = this.daily.state;
@@ -321,6 +338,15 @@ export class DailyVerseComponent {
 
   reload(): void {
     void this.daily.reload();
+  }
+
+  /** Ouvre le dialogue de création d'image avec le passage du jour. */
+  shareImage(text: string, reference: string): void {
+    this.shareCard.open({
+      text,
+      reference,
+      versionLabel: VERSION_LABELS[VERSION_MAP[this.translate.currentLocale()]],
+    });
   }
 
   async copyPassage(text: string, reference: string): Promise<void> {
