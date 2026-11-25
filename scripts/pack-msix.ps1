@@ -105,6 +105,9 @@ try {
   foreach ($a in $requiredAssets) {
     Copy-Item (Join-Path $AssetsDir $a) (Join-Path $stage "Assets")
   }
+  # Variantes "unplated" : evitent la plaque coloree (accent Windows) derriere le logo dans la barre des taches.
+  Get-ChildItem (Join-Path $AssetsDir "Square44x44Logo.targetsize-*_altform-unplated.png") -ErrorAction SilentlyContinue |
+    Copy-Item -Destination (Join-Path $stage "Assets")
 
   function Escape-Xml([string]$s) { return [System.Security.SecurityElement]::Escape($s) }
   $xName = Escape-Xml $IdentityName
